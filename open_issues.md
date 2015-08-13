@@ -8,3 +8,5 @@
 - Procedurally generate system contents
 
 ## Bugs
+
+- Starfield will still parallax scroll even if camera is pinned to world bounds
