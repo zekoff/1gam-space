@@ -20,10 +20,11 @@ var Hud = function() {
     this.add(this.multiButton);
     this.add(this.statusPanel = new StatusPanel());
     this.add(this.planetPanel = new PlanetPanel());
-
     this.multiButton.inputEnabled = true;
     this.multiButton.events.onInputUp.addOnce(this.showStatusPanel, this);
-    this.onPanelClosed = new Phaser.Signal();
+    this.onPanelHidden = new Phaser.Signal();
+
+    this.dockedPanel = new DockedPanel();
 };
 Hud.prototype = Object.create(Phaser.Group.prototype);
 Hud.prototype.constructor = Hud;
@@ -49,7 +50,7 @@ Hud.prototype.hidePanel = function() {
         this.multiButton.events.onInputUp.addOnce(this.showStatusPanel, this);
         this.inputMask.inputEnabled = false;
         game.camera.follow(space.ship);
-        this.onPanelClosed.dispatch();
+        this.onPanelHidden.dispatch();
     }, this);
 };
 Hud.prototype.showPlanetPanel = function(planet) {
@@ -68,6 +69,34 @@ Hud.prototype.showPlanetPanel = function(planet) {
         this.multiButton.events.onInputUp.addOnce(this.hidePanel, this);
     }, this);
 };
+Hud.prototype.showDockedPanel = function() {
+    this.inputMask.inputEnabled = true;
+    game.camera.unfollow();
+    game.add.tween(game.camera).to({
+        x: space.ship.x - 50,
+        y: space.ship.y - 50
+    }, PANEL_SPEED).start();
+    game.add.tween(this.dockedPanel).to({
+        x: -800,
+        y: -600
+    }, PANEL_SPEED).start();
+};
+Hud.prototype.hideDockedPanel = function() {
+    var tween = game.add.tween(this.dockedPanel).to({
+        y: 0,
+        x: 0
+    }, PANEL_SPEED).start();
+    game.add.tween(game.camera).to({
+        x: space.ship.x - 400,
+        y: space.ship.y - 300
+    }, PANEL_SPEED).start();
+    tween.onComplete.add(function() {
+        this.multiButton.events.onInputUp.addOnce(this.showStatusPanel, this);
+        this.inputMask.inputEnabled = false;
+        game.camera.follow(space.ship);
+        // this.onPanelHidden.dispatch();
+    }, this);
+};
 
 /**
 Planet info panel
@@ -80,11 +109,16 @@ var PlanetPanel = function() {
     background.anchor.set(1, 0);
     background.fixedToCamera = true;
     this.add(background);
+    // this.travelButton = game.make.button(-300, 60, 'pix', function() {
+    //     space.hud.hidePanel();
+    //     space.hud.onPanelHidden.addOnce(function() {
+    //         space.ship.travelTo(this.targetPlanet);
+    //     }, this);
+    // }, this);
     this.travelButton = game.make.button(-300, 60, 'pix', function() {
-        print('travelling');
         space.hud.hidePanel();
-        space.hud.onPanelClosed.addOnce(function() {
-            space.ship.travelTo(this.targetPlanet);
+        space.hud.onPanelHidden.addOnce(function() {
+            space.hud.showDockedPanel();
         }, this);
     }, this);
     this.travelButton.width = 50;
@@ -112,5 +146,24 @@ var StatusPanel = function() {
 };
 StatusPanel.prototype = Object.create(Phaser.Group.prototype);
 StatusPanel.prototype.constructor = StatusPanel;
+
+/*
+Docked panel
+*/
+var DockedPanel = function() {
+    Phaser.Group.call(this, game);
+    var background = game.make.image(800, 600, 'pix');
+    background.height = 600;
+    background.width = 800;
+    background.fixedToCamera = true;
+    background.tint = 0xdddddd;
+    background.inputEnabled = true;
+    background.events.onInputUp.add(function() {
+        space.hud.hideDockedPanel();
+    }, this);
+    this.add(background);
+};
+DockedPanel.prototype = Object.create(Phaser.Group.prototype);
+DockedPanel.prototype.constructor = DockedPanel;
 
 module.exports = Hud;
