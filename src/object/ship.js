@@ -10,18 +10,16 @@ Ship.prototype = Object.create(Phaser.Sprite.prototype);
 Ship.prototype.constructor = Ship;
 Ship.prototype.update = function() {
     if (!this.orbiting) return;
-    this.rotation += 1 * game.time.physicsElapsed;
+    this.rotation += .5 * game.time.physicsElapsed;
 };
 Ship.prototype.enterOrbit = function(planet) {
     this.x = planet.x;
     this.y = planet.y;
-    // game.camera.follow(planet);
     this.anchor.x = 1.5;
     this.orbiting = planet;
 };
 Ship.prototype.leaveOrbit = function(destination) {
     this.anchor.set(0.5);
-    // game.camera.follow(this);
     this.orbiting = null;
     this.rotation = game.math.angleBetweenPoints(this, destination) + Math.PI / 2;
 };

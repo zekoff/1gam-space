@@ -1,13 +1,13 @@
-/* global game, space */
+/* global game, space, Phaser */
 var Ship = require('../object/ship');
 var Planet = require('../object/planet');
 var Galaxy = require('../object/galaxy');
+var Hud = require('../object/hud');
 
 var state = {};
 
 state.create = function() {
-    game.input.maxPointers = 1;
-    game.world.resize(3000, 3000);
+    // game.world.resize(3000, 3000);
 
     space.galaxy = new Galaxy();
 
@@ -16,11 +16,13 @@ state.create = function() {
         planet = new Planet(game.rnd.between(500, game.world.width - 500), game.rnd.between(500, game.world.height - 500));
         planet.events.onInputUp.add(function() {
             space.ship.leaveOrbit(this);
+            space.hud.inputMask.inputEnabled = true;
             var twn = game.add.tween(space.ship).to({
                 x: this.x,
                 y: this.y
-            }).start();
+            },1000).start();
             twn.onComplete.add(function(ship) {
+                space.hud.inputMask.inputEnabled = false;
                 ship.enterOrbit(this);
             }, this);
         }, planet);
@@ -31,6 +33,8 @@ state.create = function() {
     space.ship.x = planet.x;
     space.ship.enterOrbit(planet);
     game.camera.follow(space.ship);
+    
+    space.hud = new Hud();    
 };
 
 module.exports = state;

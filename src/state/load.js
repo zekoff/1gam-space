@@ -1,6 +1,9 @@
-/* global game */
+/* global game,Phaser */
 module.exports = {
     preload: function() {
+        game.input.maxPointers = 1;
+        game.world.resize(3000,3000);
+        Phaser.Easing.Default = Phaser.Easing.Quadratic.InOut;
         game.load.baseURL = './assets/';
         game.scale.pageAlignHorizontally = true;
         game.scale.pageAlignVertically = true;
