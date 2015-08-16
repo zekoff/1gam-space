@@ -2,8 +2,8 @@
 var PANEL_SPEED = 500; // ms
 
 /**
-Main HUD
-*/
+ * Main HUD
+ */
 var Hud = function() {
     Phaser.Group.call(this, game);
     this.inputMask = game.make.image(0, 0, 'pix');
@@ -25,6 +25,8 @@ var Hud = function() {
     this.onPanelHidden = new Phaser.Signal();
 
     this.dockedPanel = new DockedPanel();
+    this.resultsPanel = new ResultsPanel();
+    this.resultsPanel.hidePanel();
 };
 Hud.prototype = Object.create(Phaser.Group.prototype);
 Hud.prototype.constructor = Hud;
@@ -99,8 +101,8 @@ Hud.prototype.hideDockedPanel = function() {
 };
 
 /**
-Planet info panel
-*/
+ * Planet info panel
+ */
 var PlanetPanel = function() {
     Phaser.Group.call(this, game);
     var background = game.make.image(0, 30, 'pix');
@@ -149,6 +151,7 @@ PlanetPanel.prototype.setTargetPlanet = function(planet) {
     }
     this.travelButton = game.make.button(-300, 60, 'pix', function() {
         print('out of range');
+        space.hud.resultsPanel.showPanel();
     }, this);
     this.travelButton.width = 50;
     this.travelButton.height = 30;
@@ -159,8 +162,8 @@ PlanetPanel.prototype.setTargetPlanet = function(planet) {
 };
 
 /**
-Status panel
-*/
+ * Status panel
+ */
 var StatusPanel = function() {
     Phaser.Group.call(this, game);
     var background = game.make.image(0, 600, 'pix');
@@ -172,9 +175,9 @@ var StatusPanel = function() {
 StatusPanel.prototype = Object.create(Phaser.Group.prototype);
 StatusPanel.prototype.constructor = StatusPanel;
 
-/*
-Docked panel
-*/
+/**
+ * Docked panel
+ */
 var DockedPanel = function() {
     Phaser.Group.call(this, game);
     var background = game.make.image(800, 600, 'pix');
@@ -190,5 +193,41 @@ var DockedPanel = function() {
 };
 DockedPanel.prototype = Object.create(Phaser.Group.prototype);
 DockedPanel.prototype.constructor = DockedPanel;
+
+/**
+ * Results panel.
+ */
+var ResultsPanel = function() {
+    Phaser.Group.call(this, game);
+    var inputMask = game.make.image(0, 0, 'pix');
+    inputMask.width = 800;
+    inputMask.height = 600;
+    inputMask.alpha = 0;
+    inputMask.fixedToCamera = true;
+    this.add(this.inputMask = inputMask);
+    var background = game.make.image(100, 100, 'pix');
+    background.width = 600;
+    background.height = 400;
+    background.tint = 0xffaaff;
+    background.fixedToCamera = true;
+    this.add(background);
+    var okButton = game.make.button(400, 450, 'pix', this.hidePanel, this);
+    okButton.anchor.set(0.5);
+    okButton.width = 100;
+    okButton.height = 40;
+    okButton.tint = 0x00ff00;
+    okButton.fixedToCamera = true;
+    this.add(okButton);
+};
+ResultsPanel.prototype = Object.create(Phaser.Group.prototype);
+ResultsPanel.prototype.constructor = ResultsPanel;
+ResultsPanel.prototype.showPanel = function(title, icon, text) {
+    this.inputMask.inputEnabled = true;
+    this.alpha = 1;
+};
+ResultsPanel.prototype.hidePanel = function() {
+    this.inputMask.inputEnabled = false;
+    this.alpha = 0;
+};
 
 module.exports = Hud;
