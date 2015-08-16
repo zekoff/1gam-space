@@ -2,6 +2,9 @@
 
 ## Currently working
 
+Refactor the way items are laid out in HUD panel groups so that sub HUD elements
+can be placed in a more sane way.
+
 ## Todo
 
 - Update starfield as ship travels

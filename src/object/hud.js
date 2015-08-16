@@ -79,14 +79,14 @@ Hud.prototype.showDockedPanel = function() {
         y: space.ship.y - 50
     }, PANEL_SPEED).start();
     game.add.tween(this.dockedPanel).to({
-        x: -800,
-        y: -600
+        x: 0,
+        y: 0
     }, PANEL_SPEED).start();
 };
 Hud.prototype.hideDockedPanel = function() {
     var tween = game.add.tween(this.dockedPanel).to({
-        y: 0,
-        x: 0
+        y: 600,
+        x: 800
     }, PANEL_SPEED).start();
     game.add.tween(game.camera).to({
         x: space.ship.x - 400,
@@ -179,11 +179,15 @@ StatusPanel.prototype.constructor = StatusPanel;
  * Docked panel
  */
 var DockedPanel = function() {
+    var dockedWrapper = game.add.group();
+    dockedWrapper.fixedToCamera = true;
     Phaser.Group.call(this, game);
-    var background = game.make.image(800, 600, 'pix');
+    dockedWrapper.add(this);
+    this.x = 800;
+    this.y = 600;
+    var background = game.make.image(0, 0, 'pix');
     background.height = 600;
     background.width = 800;
-    background.fixedToCamera = true;
     background.tint = 0xdddddd;
     background.inputEnabled = true;
     background.events.onInputUp.add(function() {
