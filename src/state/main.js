@@ -1,75 +1,36 @@
-/* global game */
+/* global game, space */
 var Ship = require('../object/ship');
+var Planet = require('../object/planet');
+var Galaxy = require('../object/galaxy');
 
 var state = {};
 
-var ship;
-var farStars;
-var nearStars;
-var lastDragPoint = null;
-
 state.create = function() {
     game.input.maxPointers = 1;
-    game.world.resize(2000, 2000);
+    game.world.resize(3000, 3000);
 
-    var background = game.add.image(0, 0, 'pix');
-    background.tint = 0x000000;
-    background.height = 600;
-    background.width = 800;
-    farStars = game.add.tileSprite(0, 0, 800, 600, 'starfield');
-    farStars.tileScale.set(0.4);
-    farStars.fixedToCamera = true;
-    nearStars = game.add.tileSprite(0, 0, 800, 600, 'starfield');
-    nearStars.tilePosition.set(32);
-    nearStars.tileScale.set(0.8);
-    nearStars.fixedToCamera = true;
+    space.galaxy = new Galaxy();
 
-    var i, fakePlanet;
+    var i, planet;
     for (i = 0; i < 100; i++) {
-        fakePlanet = game.add.sprite(game.rnd.between(0, game.world.width), game.rnd.between(0, game.world.height), 'pix');
-        fakePlanet.width = 30;
-        fakePlanet.height = 30;
-        fakePlanet.anchor.set(0.5);
-        fakePlanet.tint = 0x00FF00;
-        fakePlanet.inputEnabled = true;
-        fakePlanet.events.onInputUp.add(function() {
-            ship.leaveOrbit(this);
-            game.add.tween(game.camera).to({
-                x: this.x - 400,
-                y: this.y - 300
-            }).start();
-            var twn = game.add.tween(ship).to({
+        planet = new Planet(game.rnd.between(500, game.world.width - 500), game.rnd.between(500, game.world.height - 500));
+        planet.events.onInputUp.add(function() {
+            space.ship.leaveOrbit(this);
+            var twn = game.add.tween(space.ship).to({
                 x: this.x,
                 y: this.y
             }).start();
             twn.onComplete.add(function(ship) {
-                ship.enterOrbit(fakePlanet);
-            });
-            twn.start();
-        }, fakePlanet);
+                ship.enterOrbit(this);
+            }, this);
+        }, planet);
     }
 
-    ship = new Ship();
-    // ship = game.add.sprite(0, 0, 'ship');
-    // ship.scale.set(0.4);
-    // ship.anchor.set(0.5);
-    // ship.inputEnabled = true;
-    // ship.input.enableDrag();
-};
-
-state.update = function() {
-    // var ptr = game.input.activePointer;
-    // if (ptr.isDown && lastDragPoint) {
-    //     var xDrag = ptr.position.x - lastDragPoint.x;
-    //     var yDrag = ptr.position.y - lastDragPoint.y;
-    //     nearStars.tilePosition.x += 2 / 3 * xDrag;
-    //     nearStars.tilePosition.y += 2 / 3 * yDrag;
-    //     farStars.tilePosition.x += 1 / 3 * xDrag;
-    //     farStars.tilePosition.y += 1 / 3 * yDrag;
-    //     game.camera.x -= xDrag;
-    //     game.camera.y -= yDrag;
-    // }
-    // lastDragPoint = ptr.position.clone();
+    space.ship = new Ship();
+    space.ship.x = planet.x;
+    space.ship.x = planet.x;
+    space.ship.enterOrbit(planet);
+    game.camera.follow(space.ship);
 };
 
 module.exports = state;
