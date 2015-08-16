@@ -10,14 +10,8 @@ state.create = function() {
     space.galaxy = new Galaxy();
 
     var i, planet;
-    for (i = 0; i < 100; i++) {
+    for (i = 0; i < 100; i++)
         planet = new Planet(game.rnd.between(500, game.world.width - 500), game.rnd.between(500, game.world.height - 500));
-        planet.events.onInputUp.add(function() {
-            // space.ship.travelTo(this);
-            space.hud.showPlanetPanel(this);
-        }, planet);
-        
-    }
 
     space.ship = new Ship();
     space.ship.enterOrbit(planet);

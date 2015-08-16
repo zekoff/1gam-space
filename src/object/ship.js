@@ -5,6 +5,7 @@ var Ship = function() {
     this.anchor.set(0.5);
     game.add.existing(this);
     this.orbiting = false;
+    this.onTravelComplete = new Phaser.Signal();
 };
 Ship.prototype = Object.create(Phaser.Sprite.prototype);
 Ship.prototype.constructor = Ship;
@@ -29,10 +30,11 @@ Ship.prototype.travelTo = function(planet) {
     var tween = game.add.tween(this).to({
         x: planet.x,
         y: planet.y
-    }, 1000).start();
+    }, 4000).start();
     tween.onComplete.add(function() {
         space.hud.inputMask.inputEnabled = false;
         this.enterOrbit(planet);
+        this.onTravelComplete.dispatch();
     }, this);
 };
 

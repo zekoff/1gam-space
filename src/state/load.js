@@ -1,4 +1,4 @@
-/* global game,Phaser */
+/* global game, Phaser */
 module.exports = {
     preload: function() {
         game.input.maxPointers = 1;

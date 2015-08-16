@@ -23,6 +23,7 @@ var Hud = function() {
 
     this.multiButton.inputEnabled = true;
     this.multiButton.events.onInputUp.addOnce(this.showStatusPanel, this);
+    this.onPanelClosed = new Phaser.Signal();
 };
 Hud.prototype = Object.create(Phaser.Group.prototype);
 Hud.prototype.constructor = Hud;
@@ -48,6 +49,7 @@ Hud.prototype.hidePanel = function() {
         this.multiButton.events.onInputUp.addOnce(this.showStatusPanel, this);
         this.inputMask.inputEnabled = false;
         game.camera.follow(space.ship);
+        this.onPanelClosed.dispatch();
     }, this);
 };
 Hud.prototype.showPlanetPanel = function(planet) {
@@ -80,6 +82,10 @@ var PlanetPanel = function() {
     this.add(background);
     this.travelButton = game.make.button(-300, 60, 'pix', function() {
         print('travelling');
+        space.hud.hidePanel();
+        space.hud.onPanelClosed.addOnce(function() {
+            space.ship.travelTo(this.targetPlanet);
+        }, this);
     }, this);
     this.travelButton.width = 50;
     this.travelButton.height = 30;
