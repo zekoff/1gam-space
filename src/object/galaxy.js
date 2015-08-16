@@ -1,7 +1,6 @@
 /* global Phaser, game */
 var Galaxy = function() {
     Phaser.Group.call(this,game);
-    // game.add.existing(this);
     this.background = game.make.image(0,0,'pix');
     this.background.tint = 0x000000;
     this.background.width = 800;

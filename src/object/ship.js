@@ -1,4 +1,4 @@
-/* global Phaser, game */
+/* global Phaser, game, space */
 var Ship = function() {
     Phaser.Sprite.call(this, game, 0, 0, 'ship');
     this.scale.set(0.4);
@@ -22,6 +22,18 @@ Ship.prototype.leaveOrbit = function(destination) {
     this.anchor.set(0.5);
     this.orbiting = null;
     this.rotation = game.math.angleBetweenPoints(this, destination) + Math.PI / 2;
+};
+Ship.prototype.travelTo = function(planet) {
+    this.leaveOrbit(planet);
+    space.hud.inputMask.inputEnabled = true;
+    var tween = game.add.tween(this).to({
+        x: planet.x,
+        y: planet.y
+    }, 1000).start();
+    tween.onComplete.add(function() {
+        space.hud.inputMask.inputEnabled = false;
+        this.enterOrbit(planet);
+    }, this);
 };
 
 module.exports = Ship;
