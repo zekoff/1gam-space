@@ -109,28 +109,53 @@ var PlanetPanel = function() {
     background.anchor.set(1, 0);
     background.fixedToCamera = true;
     this.add(background);
-    // this.travelButton = game.make.button(-300, 60, 'pix', function() {
-    //     space.hud.hidePanel();
-    //     space.hud.onPanelHidden.addOnce(function() {
-    //         space.ship.travelTo(this.targetPlanet);
-    //     }, this);
-    // }, this);
-    this.travelButton = game.make.button(-300, 60, 'pix', function() {
-        space.hud.hidePanel();
-        space.hud.onPanelHidden.addOnce(function() {
-            space.hud.showDockedPanel();
-        }, this);
-    }, this);
-    this.travelButton.width = 50;
-    this.travelButton.height = 30;
-    this.travelButton.tint = 0x0000ff;
-    this.travelButton.fixedToCamera = true;
-    this.add(this.travelButton);
 };
 PlanetPanel.prototype = Object.create(Phaser.Group.prototype);
 PlanetPanel.prototype.constructor = PlanetPanel;
+/*
+Create button for panel based on whether it should travel, dock, or is out of range.
+*/
 PlanetPanel.prototype.setTargetPlanet = function(planet) {
     this.targetPlanet = planet;
+    if (this.targetPlanet === space.ship.orbiting) {
+        this.travelButton = game.make.button(-300, 60, 'pix', function() {
+            space.hud.hidePanel();
+            space.hud.onPanelHidden.addOnce(function() {
+                space.hud.showDockedPanel();
+            }, this);
+        }, this);
+        this.travelButton.width = 50;
+        this.travelButton.height = 30;
+        this.travelButton.tint = 0x0000ff;
+        this.travelButton.fixedToCamera = true;
+        this.add(this.travelButton);
+
+        return;
+    }
+    var inRange = space.ship.inRangeOf(this.targetPlanet);
+    if (inRange) {
+        this.travelButton = game.make.button(-300, 60, 'pix', function() {
+            space.hud.hidePanel();
+            space.hud.onPanelHidden.addOnce(function() {
+                space.ship.travelTo(this.targetPlanet);
+            }, this);
+        }, this);
+        this.travelButton.width = 50;
+        this.travelButton.height = 30;
+        this.travelButton.tint = 0x00ff00;
+        this.travelButton.fixedToCamera = true;
+        this.add(this.travelButton);
+        return;
+    }
+    this.travelButton = game.make.button(-300, 60, 'pix', function() {
+        print('out of range');
+    }, this);
+    this.travelButton.width = 50;
+    this.travelButton.height = 30;
+    this.travelButton.tint = 0x404040;
+    this.travelButton.fixedToCamera = true;
+    this.add(this.travelButton);
+
 };
 
 /**

@@ -1,4 +1,5 @@
 /* global Phaser, game, space */
+var DEBUG_MAX_TRAVEL_RANGE = 300;
 var Ship = function() {
     Phaser.Sprite.call(this, game, 0, 0, 'ship');
     this.scale.set(0.4);
@@ -36,6 +37,9 @@ Ship.prototype.travelTo = function(planet) {
         this.enterOrbit(planet);
         this.onTravelComplete.dispatch();
     }, this);
+};
+Ship.prototype.inRangeOf = function(planet) {
+    return Phaser.Math.distance(this.x, this.y, planet.x, planet.y) < DEBUG_MAX_TRAVEL_RANGE;
 };
 
 module.exports = Ship;
