@@ -10,6 +10,12 @@ var Planet = function(x, y) {
     this.events.onInputUp.add(function() {
         space.hud.showPlanetPanel(this);
     }, this);
+
+    this.type = game.rnd.pick(['Agricultural', 'Industrial']);
+    this.economy = game.rnd.pick(['Poor', 'Wealthy']);
+    this.government = game.rnd.pick(['Federal', 'Independent']);
+    this.terrain = game.rnd.pick(['Rocky', 'Icy', 'Lush', 'Ocean', 'Desert', 'Gas']);
+    // roll up hidden effects
 };
 Planet.prototype = Object.create(Phaser.Sprite.prototype);
 Planet.prototype.constructor = Planet;

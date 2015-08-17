@@ -2,7 +2,11 @@
 var Functions = {};
 
 Functions.buy = function() {
-    print(space.ship.orbiting);
+    var planet = space.ship.orbiting;
+    print(planet.type);
+    print(planet.economy);
+    print(planet.government);
+    print(planet.terrain);
 };
 
 Functions.sell = function() {
