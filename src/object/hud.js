@@ -1,5 +1,11 @@
 /* global Phaser, game, space */
+var Functions = require('../functions');
 var PANEL_SPEED = 500; // ms
+var DEBUG_TEXT_STYLE = {
+    font: 'bold 20pt sans',
+    fill: 'white',
+    backgroundColor: 'black'
+};
 
 /**
  * Main HUD
@@ -96,7 +102,6 @@ Hud.prototype.hideDockedPanel = function() {
         this.multiButton.events.onInputUp.addOnce(this.showStatusPanel, this);
         this.inputMask.inputEnabled = false;
         game.camera.follow(space.ship);
-        // this.onPanelHidden.dispatch();
     }, this);
 };
 
@@ -194,6 +199,33 @@ var DockedPanel = function() {
         space.hud.hideDockedPanel();
     }, this);
     this.add(background);
+
+    this.buyButton = game.make.text(200, 200, "BUY", DEBUG_TEXT_STYLE);
+    this.buyButton.anchor.set(.5, 0);
+    this.buyButton.inputEnabled = true;
+    this.buyButton.events.onInputUp.add(Functions.buy, this);
+    this.add(this.buyButton);
+    this.sellButton = game.make.text(200, 260, "SELL", DEBUG_TEXT_STYLE);
+    this.sellButton.anchor.set(.5, 0);
+    this.sellButton.inputEnabled = true;
+    this.sellButton.events.onInputUp.add(Functions.sell, this);
+    this.add(this.sellButton);
+
+    this.exploreButton = game.make.text(200, 320, "EXPLORE", DEBUG_TEXT_STYLE);
+    this.exploreButton.anchor.set(1.1, 0);
+    this.exploreButton.inputEnabled = true;
+    this.exploreButton.events.onInputUp.add(Functions.explore, this);
+    this.add(this.exploreButton);
+    this.hireButton = game.make.text(200, 320, "HIRE PARTY", DEBUG_TEXT_STYLE);
+    this.hireButton.anchor.set(-.1, 0);
+    this.hireButton.inputEnabled = true;
+    this.hireButton.events.onInputUp.add(Functions.hireExplorers, this);
+    this.add(this.hireButton);
+
+    this.specialButton = game.make.text(200, 580, "SPECIAL", DEBUG_TEXT_STYLE);
+    this.specialButton.anchor.set(0.5, 1);
+    this.specialButton.inputEnabled = true;
+    this.add(this.specialButton);
 };
 DockedPanel.prototype = Object.create(Phaser.Group.prototype);
 DockedPanel.prototype.constructor = DockedPanel;

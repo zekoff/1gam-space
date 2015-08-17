@@ -2,13 +2,15 @@
 
 ## Currently working
 
-Refactor the way items are laid out in HUD panel groups so that sub HUD elements
-can be placed in a more sane way.
+Expand procedural generation of planet traits
 
 ## Todo
 
+- Add display of planet traits to planet info and docked screens
 - Update starfield as ship travels
 - Procedurally generate system contents
+- Add YES/NO version of results panel
+- Refactor status/planet panel in HUD to ease layout
 
 ## Bugs
 
