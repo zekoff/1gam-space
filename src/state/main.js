@@ -9,12 +9,13 @@ var state = {};
 state.create = function() {
     space.galaxy = new Galaxy();
 
-    var i, planet;
-    for (i = 0; i < 100; i++)
-        planet = new Planet(game.rnd.between(500, game.world.width - 500), game.rnd.between(500, game.world.height - 500));
+    space.planets = [];
+    for (var i = 0; i < 100; i++)
+        space.planets.push(new Planet(i, game.rnd.between(500, game.world.width - 500),
+            game.rnd.between(500, game.world.height - 500)));
 
     space.ship = new Ship();
-    space.ship.enterOrbit(planet);
+    space.ship.enterOrbit(space.planets[0]);
     game.camera.follow(space.ship);
 
     space.hud = new Hud();

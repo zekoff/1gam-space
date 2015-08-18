@@ -1,7 +1,8 @@
 /* global Phaser, game, space */
-var Planet = function(x, y) {
+var Planet = function(id, x, y) {
     Phaser.Sprite.call(this, game, x, y, 'pix');
     game.add.existing(this);
+    this.id = id;
     this.width = 30;
     this.height = 30;
     this.anchor.set(0.5);
@@ -14,9 +15,28 @@ var Planet = function(x, y) {
     this.type = game.rnd.pick(['Agricultural', 'Industrial']);
     this.economy = game.rnd.pick(['Poor', 'Wealthy']);
     this.government = game.rnd.pick(['Federal', 'Independent']);
-    this.terrain = game.rnd.pick(['Rocky', 'Icy', 'Garden', 'Ocean', 'Desert', 'Gas', 'Forest', 'Jungle', 'Desolate']);
+    this.terrain = game.rnd.pick([
+        'Rocky', 'Icy', 'Garden', 'Ocean', 'Desert', 'Gas', 'Forest', 'Jungle',
+        'Desolate', 'Temperate', 'Lava', 'Flat', 'Mountainous'
+    ]);
     this.size = game.rnd.pick(['Small', 'Medium', 'Large']);
-    // roll up hidden effects
+    // roll up hidden effects and points of interest
+    var hiddenEffects = [
+        'Cached Goods',
+        'Shipwreck',
+        'Well-Charted'
+    ];
+    var pointsOfInterest = [
+        'Ancient Ruins',
+        'Rich History',
+        'Unusual Rock Formation',
+        'Extensive Cave Networks',
+        'Unclassified Plant Life',
+        'New Animal Species',
+        'Abundant Natural Resources',
+        'Toxic Lakes'
+    ];
+    // TODO attach some of these things to planets, greater chance per planet size
 };
 Planet.prototype = Object.create(Phaser.Sprite.prototype);
 Planet.prototype.constructor = Planet;
