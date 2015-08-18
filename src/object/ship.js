@@ -7,9 +7,23 @@ var Ship = function() {
     game.add.existing(this);
     this.orbiting = false;
     this.onTravelComplete = new Phaser.Signal();
+    
+    this.rangeMarker = game.add.image(0,0,'range_marker');
+    this.rangeMarker.tint = 0xff8000;
+    this.rangeMarker.anchor.set(0.5);
+    this.rangeMarker.update = function() {
+        this.x = space.ship.x;
+        this.y = space.ship.y;
+        this.angle -= 5 * game.time.physicsElapsed;
+        this.height = space.ship.getTravelRange() * 2;
+        this.width = space.ship.getTravelRange() * 2;
+    };
 };
 Ship.prototype = Object.create(Phaser.Sprite.prototype);
 Ship.prototype.constructor = Ship;
+Ship.prototype.getTravelRange = function() {
+    return DEBUG_MAX_TRAVEL_RANGE;
+};
 Ship.prototype.update = function() {
     if (!this.orbiting) return;
     this.rotation += .5 * game.time.physicsElapsed;

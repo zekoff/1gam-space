@@ -14,7 +14,8 @@ var Planet = function(x, y) {
     this.type = game.rnd.pick(['Agricultural', 'Industrial']);
     this.economy = game.rnd.pick(['Poor', 'Wealthy']);
     this.government = game.rnd.pick(['Federal', 'Independent']);
-    this.terrain = game.rnd.pick(['Rocky', 'Icy', 'Lush', 'Ocean', 'Desert', 'Gas']);
+    this.terrain = game.rnd.pick(['Rocky', 'Icy', 'Garden', 'Ocean', 'Desert', 'Gas', 'Forest', 'Jungle', 'Desolate']);
+    this.size = game.rnd.pick(['Small', 'Medium', 'Large']);
     // roll up hidden effects
 };
 Planet.prototype = Object.create(Phaser.Sprite.prototype);
