@@ -33,6 +33,7 @@ Ship.prototype.enterOrbit = function(planet) {
     this.y = planet.y;
     this.anchor.x = 1.5;
     this.orbiting = planet;
+    this.scanPlanet(planet);
 };
 Ship.prototype.leaveOrbit = function(destination) {
     this.anchor.set(0.5);
@@ -54,6 +55,29 @@ Ship.prototype.travelTo = function(planet) {
 };
 Ship.prototype.inRangeOf = function(planet) {
     return Phaser.Math.distance(this.x, this.y, planet.x, planet.y) < DEBUG_MAX_TRAVEL_RANGE;
+};
+Ship.prototype.scanPlanet = function(planet) {
+    if (space.data.exploration[planet.id]) return;
+    planet.loadTexture(planet.graphicId);
+    var size;
+    switch (planet.area) {
+        case 0:
+            size = 50;
+            break;
+        case 1:
+            size = 80;
+            break;
+        case 2:
+            size = 110;
+    }
+    planet.height = size;
+    planet.width = size;
+    planet.angle = planet.graphicAngle;
+    // add random tint if desired
+    space.data.exploration[planet.id] = {
+        scanned: true,
+        explored: 0
+    };
 };
 
 module.exports = Ship;

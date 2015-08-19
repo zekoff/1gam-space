@@ -11,11 +11,13 @@ module.exports = {
         game.scale.pageAlignVertically = true;
     },
     create: function() {
+        for (var i = 1; i < 19; i++) game.load.image('planet' + i, 'planets/' + i + '.png');
         game.load.image('pix');
         game.load.image('ship');
         game.load.image('starfield');
         game.load.image('range_marker');
         game.load.image('test_icon');
+        game.load.image('unscanned');
         game.load.start();
     },
     update: function() {

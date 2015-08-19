@@ -3,10 +3,12 @@ var Ship = require('../object/ship');
 var Planet = require('../object/planet');
 var Galaxy = require('../object/galaxy');
 var Hud = require('../object/hud');
+var Data = require('../data');
 
 var state = {};
 
 state.create = function() {
+    space.data = Data.newData();
     space.galaxy = new Galaxy();
 
     space.planets = [];

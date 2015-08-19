@@ -2,17 +2,17 @@
 
 ## Currently working
 
-Expand procedural generation of planet traits
+Finish explore function; returning result list, etc.
 
 ## Todo
 
+- Populate HUD with planet info and status info.
 - Add display of planet traits to planet info and docked screens
 - Update starfield as ship travels
-- Procedurally generate system contents
-- Add YES/NO version of results panel
 - Refactor status/planet panel in HUD to ease layout
 - Add random encounters when traveling between planets
 - Add random effects during travel (maybe a function of the above)
+- Add back ability to pan map
 
 ## Bugs
 
