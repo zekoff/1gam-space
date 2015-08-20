@@ -4,7 +4,10 @@ var PANEL_SPEED = 500; // ms
 var DEBUG_TEXT_STYLE = {
     font: 'bold 20pt sans',
     fill: 'white',
-    backgroundColor: 'black'
+    backgroundColor: 'black',
+    wordWrap: true,
+    wordWrapWidth: 550,
+    align: 'center'
 };
 
 /**
@@ -254,16 +257,38 @@ var ResultsPanel = function() {
     okButton.tint = 0x00ff00;
     okButton.fixedToCamera = true;
     this.add(okButton);
+    this.onDismissed = new Phaser.Signal();
+    this.title = game.make.text(400, 150, "TEST", DEBUG_TEXT_STYLE);
+    this.title.anchor.set(0.5);
+    this.title.fixedToCamera = true;
+    this.add(this.title);
+    this.icon = game.make.image(400, 200, null);
+    this.icon.anchor.set(0.5);
+    this.icon.fixedToCamera = true;
+    this.add(this.icon);
+    this.text = game.make.text(400, 250, "TESTING", DEBUG_TEXT_STYLE);
+    this.text.anchor.set(0.5, 0);
+    this.text.fixedToCamera = true;
+    this.add(this.text);
 };
 ResultsPanel.prototype = Object.create(Phaser.Group.prototype);
 ResultsPanel.prototype.constructor = ResultsPanel;
 ResultsPanel.prototype.showPanel = function(title, icon, text) {
+    print(title);
+    this.title.setText(title);
+    print(icon);
+    this.icon.loadTexture(icon);
+    this.icon.width = 40;
+    this.icon.height = 40;
+    print(text);
+    this.text.setText(text);
     this.inputMask.inputEnabled = true;
     this.alpha = 1;
 };
 ResultsPanel.prototype.hidePanel = function() {
     this.inputMask.inputEnabled = false;
     this.alpha = 0;
+    this.onDismissed.dispatch();
 };
 
 module.exports = Hud;

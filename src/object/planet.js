@@ -17,13 +17,12 @@ var Planet = function(id, x, y) {
     this.economy = game.rnd.between(0, 1);
     this.government = game.rnd.between(0, 1);
     this.terrain = game.rnd.between(0, 1);
-    this.size = game.rnd.between(0, 2);
-    this.area = game.rnd.between(0, 2);
+    this.size = this.area = game.rnd.between(0, 2);
     this.discoveries = [];
     // TODO replace with code to randomly generate number of discoveries
     this.discoveries.push({
         unlockAt: game.rnd.between(1, this.PLANET_AREAS[this.area]),
-        discoveryId: game.rnd.between(0, this.PLANET_DISCOVERIES)
+        id: game.rnd.between(0, this.PLANET_DISCOVERIES.length - 1)
     });
 };
 Planet.prototype = Object.create(Phaser.Sprite.prototype);

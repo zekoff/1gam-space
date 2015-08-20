@@ -74,6 +74,7 @@ Ship.prototype.scanPlanet = function(planet) {
     planet.width = size;
     planet.angle = planet.graphicAngle;
     // add random tint if desired
+    planet.tint = 0xffffff;
     space.data.exploration[planet.id] = {
         scanned: true,
         explored: 0
