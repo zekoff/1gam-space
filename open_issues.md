@@ -13,6 +13,7 @@ Finish explore function; returning result list, etc.
 - Add random encounters when traveling between planets
 - Add random effects during travel (maybe a function of the above)
 - Add back ability to pan map
+- Draw line between current planet and target planet when on travel screen
 
 ## Bugs
 
