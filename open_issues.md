@@ -7,6 +7,7 @@ Finish explore function; returning result list, etc.
 ## Todo
 
 - Populate HUD with planet info and status info.
+- Initialize `explored` data array with appropriate objects at creation.
 - Add display of planet traits to planet info and docked screens
 - Update starfield as ship travels
 - Refactor status/planet panel in HUD to ease layout
@@ -18,3 +19,5 @@ Finish explore function; returning result list, etc.
 ## Bugs
 
 - Starfield will still parallax scroll even if camera is pinned to world bounds
+- There is some sort of inivisble button on the screen at about (400,450).
+This problem may go away if I refactor the HUD code after all.

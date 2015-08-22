@@ -42,5 +42,15 @@ Planet.prototype.PLANET_DISCOVERIES = [
     'Abundant Natural Resources',
     'Toxic Lakes'
 ];
+Planet.prototype.getDescription = function() {
+    var desc = "";
+    desc += "This is a " + this.PLANET_SIZES[this.size].toLowerCase() + " " +
+        this.PLANET_TYPES[this.type].toLowerCase() + " planet of about " +
+        this.PLANET_AREAS[this.area] + " square miles. ";
+    desc += "The terrain appears to be " + this.PLANET_TERRAIN[this.terrain].toLowerCase() + ". ";
+    desc += "It is ruled by a " + this.PLANET_ECONOMIES[this.economy].toLowerCase() +
+        " " + this.PLANET_GOVERNMENT[this.government] + " government.";
+    return desc;
+};
 
 module.exports = Planet;

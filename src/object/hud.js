@@ -119,13 +119,21 @@ var PlanetPanel = function() {
     background.anchor.set(1, 0);
     background.fixedToCamera = true;
     this.add(background);
+    this.description = game.make.text(0, 150, "", DEBUG_TEXT_STYLE);
+    this.description.anchor.set(1, 0);
+    this.description.fixedToCamera = true;
+    this.add(this.description);
 };
 PlanetPanel.prototype = Object.create(Phaser.Group.prototype);
 PlanetPanel.prototype.constructor = PlanetPanel;
 /*
-Create button for panel based on whether it should travel, dock, or is out of range.
+Create button for panel based on whether it should travel, dock, or is out of
+range, and populate display with text description of planet.
 */
 PlanetPanel.prototype.setTargetPlanet = function(planet) {
+    if (space.data.exploration[planet.id] && space.data.exploration[planet.id].scanned)
+        this.description.setText(planet.getDescription());
+    else this.description.setText("???");
     this.targetPlanet = planet;
     if (this.targetPlanet === space.ship.orbiting) {
         this.travelButton = game.make.button(-300, 60, 'pix', function() {
