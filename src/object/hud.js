@@ -18,7 +18,7 @@ var PLANET_DESCRIPTION_TEXT_STYLE = {
     align: 'center'
 };
 var PLANET_NAME_TEXT_STYLE = {
-    font: 'bold 20pt serif',
+    font: 'bold 24pt serif',
     fill: 'white',
     backgroundColor: 'black',
     wordWrap: true,
@@ -98,6 +98,7 @@ Hud.prototype.hidePanel = function() {
     }, this);
 };
 Hud.prototype.showDockedPanel = function() {
+    this.dockedPanel.updatePanel();
     this.inputMask.inputEnabled = true;
     game.camera.unfollow();
     game.add.tween(game.camera).to({
@@ -246,12 +247,18 @@ var DockedPanel = function() {
     var background = game.make.image(0, 0, 'docked_bg');
     background.height = 600;
     background.width = 800;
-    background.tint = 0xdddddd;
     background.inputEnabled = true;
     background.events.onInputUp.add(function() {
         space.hud.hideDockedPanel();
     }, this);
     this.add(background);
+
+    this.nameText = game.make.text(550, 10, "", PLANET_NAME_TEXT_STYLE);
+    this.nameText.anchor.set(0.5, 0);
+    this.add(this.nameText);
+    this.descriptionText = game.make.text(550, 60, "", PLANET_DESCRIPTION_TEXT_STYLE);
+    this.descriptionText.anchor.set(0.5, 0);
+    this.add(this.descriptionText);
 
     this.buyButton = game.make.text(200, 200, "BUY", DEBUG_TEXT_STYLE);
     this.buyButton.anchor.set(.5, 0);
@@ -282,6 +289,19 @@ var DockedPanel = function() {
 };
 DockedPanel.prototype = Object.create(Phaser.Group.prototype);
 DockedPanel.prototype.constructor = DockedPanel;
+DockedPanel.prototype.updatePanel = function() {
+    var planet = space.ship.orbiting;
+    // update planet name
+    this.nameText.setText(planet.name);
+    // update planet description
+    this.descriptionText.setText(planet.getDescription());
+    // update buy text
+    // update sell text
+    // update exploration text
+    // update discoveries text
+    // update special text
+    // update special button
+};
 
 /**
  * Results panel.
