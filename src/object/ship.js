@@ -34,6 +34,7 @@ Ship.prototype.enterOrbit = function(planet) {
     this.anchor.x = 1.5;
     this.orbiting = planet;
     this.scanPlanet(planet);
+    print('Orbiting ' + planet.name);
 };
 Ship.prototype.leaveOrbit = function(destination) {
     this.anchor.set(0.5);

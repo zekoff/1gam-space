@@ -11,22 +11,81 @@ var Planet = function(id, x, y) {
     this.events.onInputUp.add(function() {
         space.hud.showPlanetPanel(this);
     }, this);
+    this.discoveries = [];
+
+    // RNG properties
     this.graphicId = 'planet' + game.rnd.between(1, 18);
     this.graphicAngle = game.rnd.between(-180, 180);
+    this.name = game.rnd.pick(this.PLANET_NAME_PREFIXES) + " " +
+        game.rnd.pick(this.PLANET_NAMES) + " " + game.rnd.pick(this.PLANET_NAME_SUFFIXES);
     this.type = game.rnd.between(0, 1);
     this.economy = game.rnd.between(0, 1);
     this.government = game.rnd.between(0, 1);
     this.terrain = game.rnd.between(0, 1);
     this.size = this.area = game.rnd.between(0, 2);
-    this.discoveries = [];
     // TODO replace with code to randomly generate number of discoveries
     this.discoveries.push({
         unlockAt: game.rnd.between(1, this.PLANET_AREAS[this.area]),
         id: game.rnd.between(0, this.PLANET_DISCOVERIES.length - 1)
     });
+    // End RNG properties
 };
 Planet.prototype = Object.create(Phaser.Sprite.prototype);
 Planet.prototype.constructor = Planet;
+Planet.prototype.PLANET_NAME_PREFIXES = [
+    'Alpha',
+    'Bravo',
+    'Delta',
+    'Echo',
+    'Epsilon',
+    'Gamma',
+    'Kilo',
+    'Omega',
+    'Phi',
+    'Sierra',
+    'Zulu'
+];
+Planet.prototype.PLANET_NAMES = [
+    'Centauri',
+    'Rogesh',
+    'Helix',
+    'Grammarye',
+    'Athena',
+    'Thantar',
+    'Joyuex',
+    'Terra',
+    'Femora',
+    'Boros',
+    'Veras',
+    'Exeter',
+    'Gliese',
+    'Mu Arae',
+    'Eridanus',
+    'Cetus',
+    'Hydrus',
+    'Cygnus',
+    'Lyra',
+    'Kepler',
+    'Galileo',
+    'Newton'
+];
+Planet.prototype.PLANET_NAME_SUFFIXES = [
+    'I',
+    'II',
+    'III',
+    'IV',
+    'V',
+    'VI',
+    'VII',
+    'VIII',
+    'IX',
+    'X',
+    'Minor',
+    'Major',
+    'Prima',
+    'Secundus',
+    'Tertia'
+];
 Planet.prototype.PLANET_TYPES = ['Agricultural', 'Industrial'];
 Planet.prototype.PLANET_ECONOMIES = ['Poor', 'Wealthy'];
 Planet.prototype.PLANET_GOVERNMENT = ['Federal', 'Independent'];

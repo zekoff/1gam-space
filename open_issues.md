@@ -2,6 +2,8 @@
 
 ## Currently working
 
+Refactor planet info screen to be shared between main/docked screens.
+
 Add display of planet information to planet info and docked screens.
 
 ## Todo
