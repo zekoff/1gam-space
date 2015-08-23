@@ -265,13 +265,14 @@ var ResultsPanel = function() {
     background.tint = 0xffaaff;
     background.fixedToCamera = true;
     this.add(background);
-    var okButton = game.make.button(400, 450, 'pix', this.hidePanel, this);
-    okButton.anchor.set(0.5);
-    okButton.width = 100;
-    okButton.height = 40;
-    okButton.tint = 0x00ff00;
-    okButton.fixedToCamera = true;
-    this.add(okButton);
+    this. okButton = game.make.button(400, 450, 'pix', this.hidePanel, this);
+    this.okButton.anchor.set(0.5);
+    this.okButton.width = 100;
+    this.okButton.height = 40;
+    this.okButton.tint = 0x00ff00;
+    this.okButton.fixedToCamera = true;
+    this.okButton.inputEnabled = false;
+    this.add(this.okButton);
     this.onDismissed = new Phaser.Signal();
     this.title = game.make.text(400, 150, "TEST", DEBUG_TEXT_STYLE);
     this.title.anchor.set(0.5);
@@ -289,19 +290,18 @@ var ResultsPanel = function() {
 ResultsPanel.prototype = Object.create(Phaser.Group.prototype);
 ResultsPanel.prototype.constructor = ResultsPanel;
 ResultsPanel.prototype.showPanel = function(title, icon, text) {
-    print(title);
     this.title.setText(title);
-    print(icon);
     this.icon.loadTexture(icon);
     this.icon.width = 40;
     this.icon.height = 40;
-    print(text);
     this.text.setText(text);
     this.inputMask.inputEnabled = true;
+    this.okButton.inputEnabled = true;
     this.alpha = 1;
 };
 ResultsPanel.prototype.hidePanel = function() {
     this.inputMask.inputEnabled = false;
+    this.okButton.inputEnabled = false;
     this.alpha = 0;
     this.onDismissed.dispatch();
 };

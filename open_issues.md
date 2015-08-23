@@ -17,5 +17,3 @@ Add display of planet information to planet info and docked screens.
 ## Bugs
 
 - Starfield will still parallax scroll even if camera is pinned to world bounds
-- There is some sort of inivisble button on the screen at about (400,450).
-This problem may go away if I refactor the HUD code after all.
