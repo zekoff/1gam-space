@@ -208,7 +208,7 @@ var DockedPanel = function() {
     dockedWrapper.add(this);
     this.x = 800;
     this.y = 600;
-    var background = game.make.image(0, 0, 'pix');
+    var background = game.make.image(0, 0, 'docked_bg');
     background.height = 600;
     background.width = 800;
     background.tint = 0xdddddd;

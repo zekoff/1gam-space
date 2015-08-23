@@ -18,6 +18,7 @@ module.exports = {
         game.load.image('range_marker');
         game.load.image('test_icon');
         game.load.image('unscanned');
+        game.load.image('docked_bg');
         game.load.start();
     },
     update: function() {
