@@ -123,6 +123,10 @@ var PlanetPanel = function() {
     this.description.anchor.set(1, 0);
     this.description.fixedToCamera = true;
     this.add(this.description);
+    this.explorePercentage = game.make.text(0, 400, "", DEBUG_TEXT_STYLE);
+    this.explorePercentage.anchor.set(1, 0);
+    this.explorePercentage.fixedToCamera = true;
+    this.add(this.explorePercentage);
 };
 PlanetPanel.prototype = Object.create(Phaser.Group.prototype);
 PlanetPanel.prototype.constructor = PlanetPanel;
@@ -131,9 +135,12 @@ Create button for panel based on whether it should travel, dock, or is out of
 range, and populate display with text description of planet.
 */
 PlanetPanel.prototype.setTargetPlanet = function(planet) {
-    if (space.data.exploration[planet.id] && space.data.exploration[planet.id].scanned)
+    if (space.data.exploration[planet.id].scanned)
         this.description.setText(planet.getDescription());
     else this.description.setText("???");
+    this.explorePercentage.setText("Explored: " +
+        Math.floor(space.data.exploration[planet.id].explored /
+            planet.PLANET_AREAS[planet.area] * 100) + "%");
     this.targetPlanet = planet;
     if (this.targetPlanet === space.ship.orbiting) {
         this.travelButton = game.make.button(-300, 60, 'pix', function() {

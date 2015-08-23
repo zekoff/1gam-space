@@ -4,15 +4,16 @@ var Planet = require('../object/planet');
 var Galaxy = require('../object/galaxy');
 var Hud = require('../object/hud');
 var Data = require('../data');
+var NUM_PLANETS = 100;
 
 var state = {};
 
 state.create = function() {
-    space.data = Data.newData();
+    space.data = Data.newData(NUM_PLANETS);
     space.galaxy = new Galaxy();
 
     space.planets = [];
-    for (var i = 0; i < 100; i++)
+    for (var i = 0; i < NUM_PLANETS; i++)
         space.planets.push(new Planet(i, game.rnd.between(500, game.world.width - 500),
             game.rnd.between(500, game.world.height - 500)));
 

@@ -57,7 +57,7 @@ Ship.prototype.inRangeOf = function(planet) {
     return Phaser.Math.distance(this.x, this.y, planet.x, planet.y) < DEBUG_MAX_TRAVEL_RANGE;
 };
 Ship.prototype.scanPlanet = function(planet) {
-    if (space.data.exploration[planet.id]) return;
+    if (space.data.exploration[planet.id].scanned) return;
     planet.loadTexture(planet.graphicId);
     var size;
     switch (planet.area) {

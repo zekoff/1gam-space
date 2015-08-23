@@ -2,13 +2,11 @@
 
 ## Currently working
 
-Finish explore function; returning result list, etc.
+Add display of planet information to planet info and docked screens.
 
 ## Todo
 
 - Populate HUD with planet info and status info.
-- Initialize `explored` data array with appropriate objects at creation.
-- Add display of planet traits to planet info and docked screens
 - Update starfield as ship travels
 - Refactor status/planet panel in HUD to ease layout
 - Add random encounters when traveling between planets

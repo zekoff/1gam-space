@@ -19,12 +19,14 @@ Functions.explore = function() {
     var resultsList = [];
     // figure out range of exploration results based on player skill
     var exploreResult = 200;
-    resultsList.push(new Result("Expedition Result", "test_icon", "You explored 200 sq. miles of the planet's surface.", function() {
-        // TODO advance time based on exploration stat
-        space.data.exploration[planet.id].explored += exploreResult;
-        if (space.data.exploration[planet.id].explored > planet.PLANET_AREAS[planet.area])
-            space.data.exploration[planet.id].explored = planet.PLANET_AREAS[planet.area];
-    }));
+    resultsList.push(new Result("Expedition Result", "test_icon", "You explored " +
+        exploreResult + " sq. miles of the planet's surface.",
+        function() {
+            // TODO advance time based on exploration stat
+            space.data.exploration[planet.id].explored += exploreResult;
+            if (space.data.exploration[planet.id].explored > planet.PLANET_AREAS[planet.area])
+                space.data.exploration[planet.id].explored = planet.PLANET_AREAS[planet.area];
+        }));
     var currentExploration = space.data.exploration[planet.id].explored;
     var newExploration = currentExploration + exploreResult;
     planet.discoveries.forEach(function(discovery) {
