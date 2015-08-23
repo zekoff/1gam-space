@@ -9,6 +9,23 @@ var DEBUG_TEXT_STYLE = {
     wordWrapWidth: 550,
     align: 'center'
 };
+var PLANET_DESCRIPTION_TEXT_STYLE = {
+    font: 'bold 14pt sans-serif',
+    fill: 'white',
+    backgroundColor: 'black',
+    wordWrap: true,
+    wordWrapWidth: 400,
+    align: 'center'
+};
+var PLANET_NAME_TEXT_STYLE = {
+    font: 'bold 20pt serif',
+    fill: 'white',
+    backgroundColor: 'black',
+    wordWrap: true,
+    wordWrapWidth: 400,
+    align: 'center',
+    fontVariant: 'small-caps'
+};
 
 /**
  * Main HUD
@@ -119,14 +136,22 @@ var PlanetPanel = function() {
     background.anchor.set(1, 0);
     background.fixedToCamera = true;
     this.add(background);
-    this.description = game.make.text(0, 150, "", DEBUG_TEXT_STYLE);
+    this.name = game.make.text(0, 0, "", PLANET_NAME_TEXT_STYLE);
+    this.name.anchor.set(1, 0);
+    this.name.fixedToCamera = true;
+    this.add(this.name);
+    this.description = game.make.text(0, 150, "", PLANET_DESCRIPTION_TEXT_STYLE);
     this.description.anchor.set(1, 0);
     this.description.fixedToCamera = true;
     this.add(this.description);
-    this.explorePercentage = game.make.text(0, 400, "", DEBUG_TEXT_STYLE);
+    this.explorePercentage = game.make.text(0, 400, "", PLANET_DESCRIPTION_TEXT_STYLE);
     this.explorePercentage.anchor.set(1, 0);
     this.explorePercentage.fixedToCamera = true;
     this.add(this.explorePercentage);
+    this.discoveries = game.make.text(0, 450, "", PLANET_DESCRIPTION_TEXT_STYLE);
+    this.discoveries.anchor.set(1, 0);
+    this.discoveries.fixedToCamera = true;
+    this.add(this.discoveries);
 };
 PlanetPanel.prototype = Object.create(Phaser.Group.prototype);
 PlanetPanel.prototype.constructor = PlanetPanel;
@@ -135,9 +160,19 @@ Create button for panel based on whether it should travel, dock, or is out of
 range, and populate display with text description of planet.
 */
 PlanetPanel.prototype.setTargetPlanet = function(planet) {
-    if (space.data.exploration[planet.id].scanned)
+    if (space.data.exploration[planet.id].scanned) {
+        this.name.setText(planet.name);
         this.description.setText(planet.getDescription());
-    else this.description.setText("???");
+        // print(planet.getDiscoveries());
+        var discoveries = planet.getDiscoveries();
+        this.discoveries.setText("Discoveries: " +
+            (discoveries.length > 0 ? discoveries.join(", ") : "None"));
+    }
+    else {
+        this.name.setText("???");
+        this.description.setText("???");
+        this.discoveries.setText("???");
+    }
     this.explorePercentage.setText("Explored: " +
         Math.floor(space.data.exploration[planet.id].explored /
             planet.PLANET_AREAS[planet.area] * 100) + "%");
@@ -265,7 +300,7 @@ var ResultsPanel = function() {
     background.tint = 0xffaaff;
     background.fixedToCamera = true;
     this.add(background);
-    this. okButton = game.make.button(400, 450, 'pix', this.hidePanel, this);
+    this.okButton = game.make.button(400, 450, 'pix', this.hidePanel, this);
     this.okButton.anchor.set(0.5);
     this.okButton.width = 100;
     this.okButton.height = 40;

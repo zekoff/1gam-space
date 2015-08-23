@@ -111,5 +111,13 @@ Planet.prototype.getDescription = function() {
         " " + this.PLANET_GOVERNMENT[this.government] + " government.";
     return desc;
 };
+Planet.prototype.getDiscoveries = function() {
+    var discoveries = [];
+    this.discoveries.forEach(function(discovery) {
+        if (space.data.exploration[this.id].explored >= discovery.unlockAt)
+            discoveries.push(this.PLANET_DISCOVERIES[discovery.id]);
+    }, this);
+    return discoveries;
+};
 
 module.exports = Planet;
