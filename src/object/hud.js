@@ -2,7 +2,7 @@
 var Functions = require('../functions');
 var Trade = require('../trade');
 
-var PANEL_SPEED = 1000; // ms
+var PANEL_SPEED = 500; // ms
 var DEBUG_TEXT_STYLE = {
     font: 'bold 20pt sans',
     fill: 'white',

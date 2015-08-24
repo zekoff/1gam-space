@@ -5,17 +5,20 @@ var Functions = {};
 
 Functions.buy = function() {
     var result = Trade.buyGood(space.ship.orbiting);
-    print(result);
-    print(result.title);
     space.hud.resultsPanel.showPanel(result.title, result.icon, result.text);
     space.hud.resultsPanel.onDismissed.addOnce(function() {
-        if (result.result)
-            result.result();
+        if (result.result) result.result();
+        space.hud.dockedPanel.updatePanel();
     });
 };
 
 Functions.sell = function() {
-    print('selling goods');
+    var result = Trade.sellGood(space.ship.orbiting);
+    space.hud.resultsPanel.showPanel(result.title, result.icon, result.text);
+    space.hud.resultsPanel.onDismissed.addOnce(function() {
+        if (result.result) result.result();
+        space.hud.dockedPanel.updatePanel();
+    });
 };
 
 Functions.explore = function() {
@@ -54,7 +57,10 @@ var Result = function(title, icon, text, result) {
 };
 
 var generateResultsChain = function(resultsList) {
-    if (resultsList.length == 0) return;
+    if (resultsList.length == 0) {
+        space.hud.dockedPanel.updatePanel();
+        return;
+    }
     var result = resultsList.shift();
     space.hud.resultsPanel.showPanel(result.title, result.icon, result.text);
     space.hud.resultsPanel.onDismissed.addOnce(function() {

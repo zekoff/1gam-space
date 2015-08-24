@@ -2,7 +2,7 @@
 
 ## Currently working
 
-Add trade functions.
+Add exploration functions.
 
 ## Todo
 

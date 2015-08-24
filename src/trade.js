@@ -56,11 +56,11 @@ Trade.getBuyText = function(planet) {
 };
 
 Trade.getSellText = function(planet) {
-    if (space.data.cargoCarriedQuantity == 0)
+    if (!space.data.cargo)
         return "You are not carrying any cargo that can be sold.";
-    var name = Trade.TRADE_GOOD_NAMES[space.data.cargoCarriedType];
-    var price = Trade.TRADE_GOOD_PRICES[space.data.cargoCarriedQuantity];
-    return "You can sell your " + space.data.cargoCarriedQuantity + " units of " +
+    var name = Trade.TRADE_GOOD_NAMES[space.data.cargo.id];
+    var price = Trade.TRADE_GOOD_PRICES[space.data.cargo.id];
+    return "You can sell your " + space.data.cargo.quantity + " units of " +
         name + " at the Exchange. The market value per unit is " + price + " credits.";
 };
 
@@ -71,48 +71,73 @@ Trade.buyGood = function(planet) {
         text: ""
     };
     var name = Trade.TRADE_GOOD_NAMES[Trade.getTradeGood(planet)];
-    if (space.data.cargoCarriedQuantity > 0 &&
-        space.data.cargoCarriedType != Trade.getTradeGood(planet)) {
-        transactionResult.text = "You are not able to mix cargo types in your hold. Please " +
-            "sell the cargo you are currently carrying before purchasing a new type.";
+    if (space.data.cargo) {
+        transactionResult.text = "You must sell any cargo you are carrying before purchasing more.";
         return transactionResult;
     }
     var pricePerUnit = Math.ceil(Trade.TRADE_GOOD_PRICES[Trade.getTradeGood(planet)] *
-        calculateNegotiationDiscount());
+        (1 - calculateNegotiationBonus()));
     var maxAffordableUnits = Math.floor(space.data.credits / pricePerUnit);
     if (maxAffordableUnits == 0) {
         transactionResult.text = "You can't afford a single unit of " + name + ".";
         return transactionResult;
     }
-    var maxTransportableUnits = space.data.maxCargo - space.data.cargoCarriedQuantity;
-    if (maxTransportableUnits == 0) {
-        transactionResult.text = "You can't hold any more cargo.";
-        return transactionResult;
-    }
-    var unitsToPurchase = Math.min(maxAffordableUnits, maxTransportableUnits);
+    var unitsToPurchase = Math.min(maxAffordableUnits, space.data.maxCargo);
     var totalPrice = unitsToPurchase * pricePerUnit;
     transactionResult.title = "Purchased " + name;
     transactionResult.icon = "test_icon";
     transactionResult.text = "You purchased " + unitsToPurchase +
         " units of " + name + ". ";
-    transactionResult.text += "Because of your skill in negotations, you receive " +
-        "a " + ((1 - calculateNegotiationDiscount()) * 100) + "% discount on the goods. ";
+    if (calculateNegotiationBonus() > 0)
+        transactionResult.text += "Because of your skill in negotation, you receive " +
+        "a " + (calculateNegotiationBonus() * 100).toFixed(0) + "% discount on the goods. ";
     transactionResult.text += "Your total comes to " + totalPrice + ".";
     transactionResult.result = function() {
-        space.data.cargoCarriedType = Trade.getTradeGood(planet);
-        space.data.cargoCarriedQuantity += unitsToPurchase;
+        space.data.cargo = {};
+        space.data.cargo.id = Trade.getTradeGood(planet);
+        space.data.cargo.quantity = unitsToPurchase;
+        space.data.cargo.purchasedAt = planet.id;
         space.data.credits -= totalPrice;
     };
     return transactionResult;
 };
 
-Trade.sellGood = function() {};
+Trade.sellGood = function(planet) {
+    if (!space.data.cargo)
+        return {
+            title: "No Cargo to Sell",
+            icon: "test_icon",
+            text: "Your cargo hold is empty. Purchase cargo from another planet to sell it here."
+        };
+    if (space.data.cargo.purchasedAt == planet.id)
+        return {
+            title: "Unable to Sell",
+            icon: "test_icon",
+            text: "This Exchange won't purchase goods that it sold to you."
+        };
+    var name = Trade.TRADE_GOOD_NAMES[space.data.cargo.id];
+    var sellPrice = Math.ceil(Trade.TRADE_GOOD_PRICES[space.data.cargo.id] *
+        (1 + calculateNegotiationBonus()) * space.data.cargo.quantity);
+    var result = {};
+    result.title = "Sold " + name;
+    result.icon = "test_icon";
+    result.text = "You sold " + space.data.cargo.quantity + " units of " + name +
+        " for " + sellPrice + ".";
+    if (calculateNegotiationBonus() > 0)
+        result.text += " You were able to negotiate for a " +
+        (calculateNegotiationBonus() * 100).toFixed(0) + " higher sale price.";
+    result.result = function() {
+        space.data.cargo = null;
+        space.data.credits += sellPrice;
+    };
+    return result;
+};
 
-var calculateNegotiationDiscount = function() {
-    var discount = 1;
-    if (space.data.negotiationSkill == 3) discount -= .4;
-    else if (space.data.negotiationSkill == 2) discount -= .2;
-    return discount;
+var calculateNegotiationBonus = function() {
+    var bonus = 0;
+    if (space.data.negotiationSkill == 3) bonus += .2;
+    else if (space.data.negotiationSkill == 2) bonus += .1;
+    return bonus;
 };
 
 module.exports = Trade;

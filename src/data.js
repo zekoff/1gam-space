@@ -10,11 +10,10 @@ module.exports = {
         return {
             exploration: exploration,
             maxCargo: 200,
-            cargoCarriedQuantity: 0,
-            cargoCarriedType: null,
+            cargo: null,
             credits: 10000,
             daysLeft: 180,
-            negotiationSkill: 1,
+            negotiationSkill: 2,
             explorationSkill: 1,
             pilotingSkill: 1
         };
