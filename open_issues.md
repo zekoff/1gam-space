@@ -2,9 +2,7 @@
 
 ## Currently working
 
-Refactor planet info screen to be shared between main/docked screens.
-
-Add display of planet information to planet info and docked screens.
+Add trade functions.
 
 ## Todo
 
@@ -15,6 +13,8 @@ Add display of planet information to planet info and docked screens.
 - Add random effects during travel (maybe a function of the above)
 - Add back ability to pan map
 - Draw line between current planet and target planet when on travel screen
+- Add contents to status panel.
+- Buying goods might still be buggy.
 
 ## Bugs
 

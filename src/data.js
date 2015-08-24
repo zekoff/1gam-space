@@ -8,7 +8,15 @@ module.exports = {
             exploration[i].explored = 0;
         }
         return {
-            exploration: exploration
+            exploration: exploration,
+            maxCargo: 200,
+            cargoCarriedQuantity: 0,
+            cargoCarriedType: null,
+            credits: 10000,
+            daysLeft: 180,
+            negotiationSkill: 1,
+            explorationSkill: 1,
+            pilotingSkill: 1
         };
     }
 };

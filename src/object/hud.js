@@ -1,6 +1,8 @@
 /* global Phaser, game, space */
 var Functions = require('../functions');
-var PANEL_SPEED = 500; // ms
+var Trade = require('../trade');
+
+var PANEL_SPEED = 1000; // ms
 var DEBUG_TEXT_STYLE = {
     font: 'bold 20pt sans',
     fill: 'white',
@@ -25,6 +27,14 @@ var PLANET_NAME_TEXT_STYLE = {
     wordWrapWidth: 400,
     align: 'center',
     fontVariant: 'small-caps'
+};
+var DOCK_INFO_TEXT_STYLE = {
+    font: '12pt sans-serif',
+    fill: 'white',
+    backgroundColor: 'black',
+    wordWrap: true,
+    wordWrapWidth: 190,
+    align: 'center'
 };
 
 /**
@@ -260,29 +270,35 @@ var DockedPanel = function() {
     this.descriptionText.anchor.set(0.5, 0);
     this.add(this.descriptionText);
 
-    this.buyButton = game.make.text(200, 200, "BUY", DEBUG_TEXT_STYLE);
+    this.buyButton = game.make.text(100, 250, "BUY", DEBUG_TEXT_STYLE);
     this.buyButton.anchor.set(.5, 0);
     this.buyButton.inputEnabled = true;
     this.buyButton.events.onInputUp.add(Functions.buy, this);
     this.add(this.buyButton);
-    this.sellButton = game.make.text(200, 260, "SELL", DEBUG_TEXT_STYLE);
+    this.buyText = game.make.text(100, 300, "", DOCK_INFO_TEXT_STYLE);
+    this.buyText.anchor.set(0.5, 0);
+    this.add(this.buyText);
+    this.sellButton = game.make.text(300, 250, "SELL", DEBUG_TEXT_STYLE);
     this.sellButton.anchor.set(.5, 0);
     this.sellButton.inputEnabled = true;
     this.sellButton.events.onInputUp.add(Functions.sell, this);
     this.add(this.sellButton);
+    this.sellText = game.make.text(300, 300, "", DOCK_INFO_TEXT_STYLE);
+    this.sellText.anchor.set(0.5, 0);
+    this.add(this.sellText);
 
-    this.exploreButton = game.make.text(200, 320, "EXPLORE", DEBUG_TEXT_STYLE);
-    this.exploreButton.anchor.set(1.1, 0);
+    this.exploreButton = game.make.text(500, 250, "EXPLORE", DEBUG_TEXT_STYLE);
+    this.exploreButton.anchor.set(0.5, 0);
     this.exploreButton.inputEnabled = true;
     this.exploreButton.events.onInputUp.add(Functions.explore, this);
     this.add(this.exploreButton);
-    this.hireButton = game.make.text(200, 320, "HIRE PARTY", DEBUG_TEXT_STYLE);
-    this.hireButton.anchor.set(-.1, 0);
+    this.hireButton = game.make.text(700, 250, "HIRE PARTY", DEBUG_TEXT_STYLE);
+    this.hireButton.anchor.set(0.5, 0);
     this.hireButton.inputEnabled = true;
     this.hireButton.events.onInputUp.add(Functions.hireExplorers, this);
     this.add(this.hireButton);
 
-    this.specialButton = game.make.text(200, 580, "SPECIAL", DEBUG_TEXT_STYLE);
+    this.specialButton = game.make.text(100, 580, "SPECIAL", DEBUG_TEXT_STYLE);
     this.specialButton.anchor.set(0.5, 1);
     this.specialButton.inputEnabled = true;
     this.add(this.specialButton);
@@ -296,7 +312,9 @@ DockedPanel.prototype.updatePanel = function() {
     // update planet description
     this.descriptionText.setText(planet.getDescription());
     // update buy text
+    this.buyText.setText(Trade.getBuyText(planet));
     // update sell text
+    this.sellText.setText(Trade.getSellText(planet));
     // update exploration text
     // update discoveries text
     // update special text

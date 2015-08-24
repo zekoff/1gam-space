@@ -1,12 +1,17 @@
 /* global space */
+var Trade = require('./trade');
+
 var Functions = {};
 
 Functions.buy = function() {
-    var planet = space.ship.orbiting;
-    print(planet.type);
-    print(planet.economy);
-    print(planet.government);
-    print(planet.terrain);
+    var result = Trade.buyGood(space.ship.orbiting);
+    print(result);
+    print(result.title);
+    space.hud.resultsPanel.showPanel(result.title, result.icon, result.text);
+    space.hud.resultsPanel.onDismissed.addOnce(function() {
+        if (result.result)
+            result.result();
+    });
 };
 
 Functions.sell = function() {
