@@ -30,13 +30,15 @@ Functions.explore = function() {
         generateResultsChain(resultsList);
         return;
     }
-    // TODO check that you have time left for an expedition
     var exploreTime = 1;
-    // TODO Reduce explore result by terrain if applicable
     var exploreResult = space.data.explorationSkill * 100;
-    resultsList.push(new Result("Expedition Result", "test_icon", "You explored " +
+    var roughTerrain = planet.terrain == 1;
+    if (roughTerrain) exploreResult /= 2;
+    var exploreMessage = "You explored " +
         exploreResult + " sq. miles of the planet's surface. The expedition took " +
-        exploreTime + " day(s).",
+        exploreTime + " day(s).";
+    if (roughTerrain) exploreMessage += "The rough terrain made for slow going.";
+    resultsList.push(new Result("Expedition Result", "test_icon", exploreMessage,
         function() {
             space.data.daysLeft -= exploreTime;
             space.data.exploration[planet.id].explored += exploreResult;
@@ -58,9 +60,13 @@ Functions.scan = function() {
         generateResultsChain(resultsList);
         return;
     }
-    // TODO Check that you can afford a scan
-    var scanResult = 50;
     var scanCost = 1000;
+    if (scanCost > space.data.credits) {
+        resultsList.push(new Result("Scan Cancelled", "test_icon", "You can't afford to purchase a scan."));
+        generateResultsChain(resultsList);
+        return;
+    }
+    var scanResult = 50;
     resultsList.push(new Result("Scan Result", "test_icon", "You purchased a sensor scan of the planet for " +
         scanCost + " credits. The scan covers " + scanResult + " sq. miles of terrain.",
         function() {

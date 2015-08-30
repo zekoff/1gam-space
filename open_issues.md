@@ -2,7 +2,6 @@
 
 ## Currently working
 
-Handle edge cases for scan.
 
 ## Todo
 
@@ -17,6 +16,12 @@ Handle edge cases for scan.
 - Draw line between current planet and target planet when on travel screen
 - Add contents to status panel.
 - Buying goods might still be buggy.
+- Add time cost to travel.
+- Make travel faster/slower depending on distance.
+- Variable number of discoveries based on planet size.
+- Add end condition (no days left)
+- Add "out of money" condition.
+
 
 ## Bugs
 
