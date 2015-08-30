@@ -2,12 +2,12 @@
 
 ## Currently working
 
-Add 'sensor scan' functions.
+Handle edge cases for scan.
 
 ## Todo
 
 - Populate HUD with planet info and status info.
-- Add remaining time to HUD
+- Add remaining time and money to HUD
 - Update starfield as ship travels
 - Refactor status/planet panel in HUD to ease layout
 - Add random encounters when traveling between planets

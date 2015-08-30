@@ -295,7 +295,7 @@ var DockedPanel = function() {
     this.hireButton = game.make.text(700, 250, "SENSOR SCAN", DEBUG_TEXT_STYLE);
     this.hireButton.anchor.set(0.5, 0);
     this.hireButton.inputEnabled = true;
-    this.hireButton.events.onInputUp.add(Functions.hireExplorers, this);
+    this.hireButton.events.onInputUp.add(Functions.scan, this);
     this.add(this.hireButton);
 
     this.specialButton = game.make.text(100, 580, "SPECIAL", DEBUG_TEXT_STYLE);
