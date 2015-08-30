@@ -22,20 +22,23 @@ Functions.sell = function() {
 };
 
 Functions.explore = function() {
-    // TODO cancel exploration if fully-explored
-    var planet = space.ship.orbiting;
     var resultsList = [];
-    // figure out range of exploration results based on player skill
-    var exploreResult = 200;
+    var planet = space.ship.orbiting;
+    var currentExploration = space.data.exploration[planet.id].explored;
+    if (currentExploration == planet.PLANET_AREAS[planet.area]) {
+        resultsList.push(new Result("Planet Fully Explored", "test_icon", "This planet has been fully explored. You cancel your expedition."));
+        generateResultsChain(resultsList);
+        return;
+    }
+    var exploreResult = space.data.explorationSkill * 100;
     resultsList.push(new Result("Expedition Result", "test_icon", "You explored " +
         exploreResult + " sq. miles of the planet's surface.",
         function() {
-            // TODO advance time based on exploration stat
+            space.data.daysLeft -= 1;
             space.data.exploration[planet.id].explored += exploreResult;
             if (space.data.exploration[planet.id].explored > planet.PLANET_AREAS[planet.area])
                 space.data.exploration[planet.id].explored = planet.PLANET_AREAS[planet.area];
         }));
-    var currentExploration = space.data.exploration[planet.id].explored;
     var newExploration = currentExploration + exploreResult;
     planet.discoveries.forEach(function(discovery) {
         if (discovery.unlockAt > currentExploration && discovery.unlockAt <= newExploration)
