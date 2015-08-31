@@ -42,6 +42,15 @@ var DOCK_INFO_TEXT_STYLE = {
  */
 var Hud = function() {
     Phaser.Group.call(this, game);
+    this.timeLeftText = game.make.text(550, 10, "TIME LEFT", DEBUG_TEXT_STYLE);
+    this.timeLeftText.anchor.set(0.5, 0);
+    this.timeLeftText.fixedToCamera = true;
+    this.add(this.timeLeftText);
+    this.moneyText = game.make.text(250, 10, "MONEY", DEBUG_TEXT_STYLE);
+    this.moneyText.anchor.set(0.5, 0);
+    this.moneyText.fixedToCamera = true;
+    this.add(this.moneyText);
+
     this.inputMask = game.make.image(0, 0, 'pix');
     this.inputMask.width = 800;
     this.inputMask.height = 600;
@@ -301,7 +310,8 @@ var DockedPanel = function() {
     this.specialButton = game.make.text(100, 580, "SPECIAL", DEBUG_TEXT_STYLE);
     this.specialButton.anchor.set(0.5, 1);
     this.specialButton.inputEnabled = true;
-    this.specialText = game.make.text(200, 500, "", DEBUG_TEXT_STYLE);
+    this.specialText = game.make.text(200, 580, "", DOCK_INFO_TEXT_STYLE);
+    this.specialText.anchor.set(0, 1);
     this.add(this.specialText);
     this.add(this.specialButton);
 };

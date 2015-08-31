@@ -1,5 +1,7 @@
 /* global Phaser, game, space */
 var DEBUG_MAX_TRAVEL_RANGE = 300;
+var TRAVEL_TIME_FACTOR = 0.5;
+
 var Ship = function() {
     Phaser.Sprite.call(this, game, 0, 0, 'ship');
     this.scale.set(0.4);
@@ -41,12 +43,18 @@ Ship.prototype.leaveOrbit = function(destination) {
     this.rotation = game.math.angleBetweenPoints(this, destination) + Math.PI / 2;
 };
 Ship.prototype.travelTo = function(planet) {
+    var distance = Phaser.Math.distance(this.orbiting.x, this.orbiting.y, planet.x, planet.y);
     this.leaveOrbit(planet);
     space.hud.inputMask.inputEnabled = true;
+    var shipSpeed = 60;
+    var currentDaysLeft = space.data.daysLeft;
+    game.add.tween(space.data).to({
+        daysLeft: currentDaysLeft - (distance / shipSpeed * TRAVEL_TIME_FACTOR)
+    }, (distance / shipSpeed) * 1000, Phaser.Easing.Linear.None).start();
     var tween = game.add.tween(this).to({
         x: planet.x,
         y: planet.y
-    }, 4000).start();
+    }, (distance / shipSpeed) * 1000).start();
     tween.onComplete.add(function() {
         space.hud.inputMask.inputEnabled = false;
         this.enterOrbit(planet);

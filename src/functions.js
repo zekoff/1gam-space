@@ -1,4 +1,4 @@
-/* global space */
+/* global space, game */
 var Trade = require('./trade');
 
 var Functions = {};
@@ -30,24 +30,27 @@ Functions.explore = function() {
         generateResultsChain(resultsList);
         return;
     }
-    var exploreTime = 1;
+    var exploreTime = 2;
+    // TODO random event to boost exploration result?
     var exploreResult = space.data.explorationSkill * 100;
     var roughTerrain = planet.terrain == 1;
     if (roughTerrain) exploreResult /= 2;
     var exploreMessage = "You explored " +
         exploreResult + " sq. miles of the planet's surface. The expedition took " +
-        exploreTime + " day(s).";
+        exploreTime + " days.";
     if (roughTerrain) exploreMessage += "The rough terrain made for slow going.";
     resultsList.push(new Result("Expedition Result", "test_icon", exploreMessage,
         function() {
             space.data.daysLeft -= exploreTime;
             space.data.exploration[planet.id].explored += exploreResult;
-            if (space.data.exploration[planet.id].explored > planet.PLANET_AREAS[planet.area])
+            if (space.data.exploration[planet.id].explored >= planet.PLANET_AREAS[planet.area]) {
                 space.data.exploration[planet.id].explored = planet.PLANET_AREAS[planet.area];
+                resultsList.push(new Result("Planet Fully Explored!", "test_icon", "You've completely explored this planet! The Federation will be pleased."));
+            }
         }));
     Array.prototype.push.apply(resultsList,
         createDiscoveryUnlockResults(currentExploration, currentExploration + exploreResult));
-    // TODO decide if random event(s) occurred during exploration (explore only)
+    while (game.rnd.frac() < .15) resultsList.push(createRandomExplorationEvent());
     generateResultsChain(resultsList);
 };
 
@@ -72,8 +75,10 @@ Functions.scan = function() {
         function() {
             space.data.credits -= scanCost;
             space.data.exploration[planet.id].explored += scanResult;
-            if (space.data.exploration[planet.id].explored > planet.PLANET_AREAS[planet.area])
+            if (space.data.exploration[planet.id].explored >= planet.PLANET_AREAS[planet.area]) {
                 space.data.exploration[planet.id].explored = planet.PLANET_AREAS[planet.area];
+                resultsList.push(new Result("Planet Fully Explored!", "test_icon", "You've completely explored this planet! The Federation will be pleased."));
+            }
         }));
     Array.prototype.push.apply(resultsList,
         createDiscoveryUnlockResults(currentExploration, currentExploration + scanResult));
@@ -97,6 +102,23 @@ var createDiscoveryUnlockResults = function(currentExploration, newExploration) 
     return resultsList;
 };
 
+var createRandomExplorationEvent = function() {
+    return game.rnd.pick([
+        new Result("Found Shipwreck", "test_icon", "While exploring, you find a spaceship that crash landed here. The ruins have been picked pretty clean, but on an old data drive you find 1000 credits.", function() {
+            space.data.credits += 1000;
+        }),
+        new Result("Found Secret Cache", "test_icon", "Your party stumbled across a cave while exploring where someone left a cache of goods. You sell them upon your return for 2000 credits.", function() {
+            space.data.credits += 2000;
+        }),
+        new Result("Precursor Technology", "test_icon", "You find a magnificent cache of Precursor technology while exploring. After carting it back, you sell it to a collector for 10,000 credits.", function() {
+            space.data.credits += 10000;
+        }),
+        new Result("Brush with Death", "test_icon", "Your party is ambushed by local fauna. One of your party members is gravely injured, but everyone makes it back alive."),
+        new Result("Beautiful View", "test_icon", "During this expedition you find an incredible vista overlooking the landscape. Even after all these years exploring, you can still appreciate a sunset."),
+        new Result("Encounter with the Numinous", "test_icon", "Near an ancient stone circle, a deathly chill overcomes your party even though the sun is shining brightly. No one speaks a word of it, even long after.")
+    ]);
+};
+
 var generateResultsChain = function(resultsList) {
     if (resultsList.length == 0) {
         space.hud.dockedPanel.updatePanel();
@@ -110,11 +132,5 @@ var generateResultsChain = function(resultsList) {
         generateResultsChain(resultsList);
     });
 };
-
-/* ideas for planet random encounters:
-Cached Goods
-Shipwreck
-Well-charted
-*/
 
 module.exports = Functions;

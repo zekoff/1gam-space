@@ -12,7 +12,7 @@ module.exports = {
             maxCargo: 200,
             cargo: null,
             credits: 10000,
-            daysLeft: 180,
+            daysLeft: 365,
             negotiationSkill: 2,
             explorationSkill: 1,
             pilotingSkill: 1

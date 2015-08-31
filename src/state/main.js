@@ -24,4 +24,9 @@ state.create = function() {
     space.hud = new Hud();
 };
 
+state.update = function() {
+    space.hud.timeLeftText.setText("Days remaining: " + space.data.daysLeft.toFixed(0));
+    space.hud.moneyText.setText("Credits: " + space.data.credits);
+};
+
 module.exports = state;
