@@ -1,4 +1,6 @@
 /* global Phaser, game, space */
+var Trade = require('../trade');
+
 var Planet = function(id, x, y) {
     Phaser.Sprite.call(this, game, x, y, 'unscanned');
     game.add.existing(this);
@@ -118,6 +120,52 @@ Planet.prototype.getDiscoveries = function() {
             discoveries.push(this.PLANET_DISCOVERIES[discovery.id]);
     }, this);
     return discoveries;
+};
+Planet.prototype.getSpecialFeature = function() {
+    var name = this.economy == 1 ? "REFINERY" : "SHIPYARD";
+    var description = "This planet is host to a " + name + ". ";
+    var func;
+    if (this.economy == 1) {
+        // Wealthy planets have refineries
+        var tradeGood = Trade.getTradeGood(this);
+        var neededGood = this.type;
+        description += "This refinery will produce " + Trade.TRADE_GOOD_NAMES[tradeGood] +
+            " from raw materials, if you have them.";
+        func = function() {
+            if (!space.data.cargo) {
+                space.hud.resultsPanel.showPanel("No Cargo", "test_icon", "You have no cargo. The refinery requires " + Trade.TRADE_GOOD_NAMES[neededGood] + " to refine " + Trade.TRADE_GOOD_NAMES[tradeGood] + ".");
+                return;
+            }
+            if (space.data.cargo.id != neededGood) {
+                space.hud.resultsPanel.showPanel("Unusable Cargo", "test_icon", "You are carrying " + Trade.TRADE_GOOD_NAMES[space.data.cargo.id] + ". The refinery can only refine " + Trade.TRADE_GOOD_NAMES[tradeGood] + " from " + Trade.TRADE_GOOD_NAMES[neededGood] + ".");
+                return;
+            }
+            var unitPriceToRefine = (Trade.TRADE_GOOD_PRICES[tradeGood] - Trade.TRADE_GOOD_PRICES[neededGood]) / 5;
+            print(unitPriceToRefine);
+            var totalCost = unitPriceToRefine * space.data.cargo.quantity;
+            if (totalCost > space.data.credits) {
+                space.hud.resultsPanel.showPanel("Insufficient Funds", "test_icon", "You do not have enough money to convert your cargo of " + Trade.TRADE_GOOD_NAMES[neededGood] + " to " + Trade.TRADE_GOOD_NAMES[tradeGood] + ".");
+                return;
+            }
+            space.data.cargo.id = tradeGood;
+            space.data.cargo.purchasedAt = space.ship.orbiting.id;
+            space.data.credits -= totalCost;
+            space.hud.resultsPanel.showPanel("Refined " + Trade.TRADE_GOOD_NAMES[tradeGood], "test_icon", "You paid " + totalCost + " to have your cargo of " + Trade.TRADE_GOOD_NAMES[neededGood] + " refined into " + Trade.TRADE_GOOD_NAMES[tradeGood] + ".");
+            space.hud.dockedPanel.updatePanel();
+        };
+    }
+    else {
+        // Poor planets have shipyards
+        // TODO deal w/ upgrades
+        func = function() {
+            print('shipyard');
+        };
+    }
+    return {
+        name: name,
+        description: description,
+        func: func
+    };
 };
 
 module.exports = Planet;

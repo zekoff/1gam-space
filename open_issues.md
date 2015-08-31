@@ -2,6 +2,10 @@
 
 ## Currently working
 
+Add special function to each planet.
+
+Add random events to travel and exploration.
+
 
 ## Todo
 
@@ -21,6 +25,8 @@
 - Variable number of discoveries based on planet size.
 - Add end condition (no days left)
 - Add "out of money" condition.
+- Add 'hidden effects' to planet. (Cached goods, rich history, shipwreck, well-charted, etc.)
+- Add random galaxy-level events (food shortage, etc.)
 
 
 ## Bugs

@@ -18,12 +18,6 @@ Trade.TRADE_GOOD_PRICES = [
 ];
 var BUY_PRICE = 0.7; // Cost to buy planet specialty is 70% of market value
 
-// Trade.TradeGood = function(id) {
-//     this.id = id;
-//     this.name = Trade.TRADE_GOOD_NAMES[id];
-//     this.price = Trade.TRADE_GOOD_PRICES[id];
-// };
-
 Trade.getTradeGood = function(planet) {
     var tradeGoodId;
     switch (planet.type) {
@@ -125,7 +119,7 @@ Trade.sellGood = function(planet) {
         " for " + sellPrice + ".";
     if (calculateNegotiationBonus() > 0)
         result.text += " You were able to negotiate for a " +
-        (calculateNegotiationBonus() * 100).toFixed(0) + " higher sale price.";
+        (calculateNegotiationBonus() * 100).toFixed(0) + "% higher sale price.";
     result.result = function() {
         space.data.cargo = null;
         space.data.credits += sellPrice;

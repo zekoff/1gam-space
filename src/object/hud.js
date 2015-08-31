@@ -301,24 +301,26 @@ var DockedPanel = function() {
     this.specialButton = game.make.text(100, 580, "SPECIAL", DEBUG_TEXT_STYLE);
     this.specialButton.anchor.set(0.5, 1);
     this.specialButton.inputEnabled = true;
+    this.specialText = game.make.text(200, 500, "", DEBUG_TEXT_STYLE);
+    this.add(this.specialText);
     this.add(this.specialButton);
 };
 DockedPanel.prototype = Object.create(Phaser.Group.prototype);
 DockedPanel.prototype.constructor = DockedPanel;
 DockedPanel.prototype.updatePanel = function() {
     var planet = space.ship.orbiting;
-    // update planet name
     this.nameText.setText(planet.name);
-    // update planet description
     this.descriptionText.setText(planet.getDescription());
-    // update buy text
     this.buyText.setText(Trade.getBuyText(planet));
-    // update sell text
     this.sellText.setText(Trade.getSellText(planet));
     // update exploration text
+    // update survey text
     // update discoveries text
-    // update special text
-    // update special button
+    var specialFeature = planet.getSpecialFeature();
+    this.specialButton.setText(specialFeature.name);
+    this.specialText.setText(specialFeature.description);
+    this.specialButton.events.onInputUp.removeAll();
+    this.specialButton.events.onInputUp.add(specialFeature.func);
 };
 
 /**
