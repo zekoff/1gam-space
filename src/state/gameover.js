@@ -21,9 +21,9 @@ state.create = function() {
     for (i = 0; i < space.planets.length; i++) {
         if (space.data.exploration[i].explored >= space.planets[i].PLANET_AREAS[space.planets[i].area]) score += 3;
     }
-    // 2 points per discovery
+    // 3 points per discovery
     for (i = 0; i < space.planets.length; i++) {
-        score += space.planets[i].getDiscoveries().length * 2;
+        score += space.planets[i].getDiscoveries().length * 3;
     }
     game.add.text(400, 300, "Final Score: " + score, DEBUG_TEXT_STYLE).anchor.set(0.5);
 };

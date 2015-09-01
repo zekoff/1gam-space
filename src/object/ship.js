@@ -1,6 +1,5 @@
 /* global Phaser, game, space */
-var DEBUG_MAX_TRAVEL_RANGE = 300;
-var TRAVEL_TIME_FACTOR = 0.5;
+var TRAVEL_TIME_FACTOR = 0.25;
 
 var Ship = function() {
     Phaser.Sprite.call(this, game, 0, 0, 'ship');
@@ -23,8 +22,30 @@ var Ship = function() {
 };
 Ship.prototype = Object.create(Phaser.Sprite.prototype);
 Ship.prototype.constructor = Ship;
+Ship.prototype.UPGRADE_NAMES = [
+    'External Fuel Tanks',
+    'Smuggler Compartments',
+    'Long-Range Scanners',
+    'Military-Grade Engines',
+    'Grappling Beams',
+    'Cold Fusion Reactors',
+    'Localized Space Folders',
+    'Telewarp Drives',
+    'Stealth Rigging'
+];
+Ship.prototype.UPGRADE_DESCRIPTIONS = [
+    'Adding shielded fuel tanks to the outside of your ship effectively doubles your range.',
+    'Hollowed-out walls and floors in your cargo hold give you twice the storage capacity.',
+    'A long-range scanner allows you to perform a basic scan of any planet in range each time you enter orbit.',
+    'This fancy new engine doubles your travel speed with no extra fuel cost.',
+    'A grappling beam allows you to grab debris as you travel if you have an empty cargo hold.',
+    'The latest in fuel cell technology, this reactor doubles your range again, to 4x compared to basic fuel cells.',
+    'A device that warps spacetime to effectively double your cargo capacity again, to 4x compared to a basic hold.',
+    'This prototype engine doubles your speed yet again, to 4x compared to the basic trader engine.',
+    'Illegal stealth rigging for your ship allows you to avoid all unwanted encounters during travel.'
+];
 Ship.prototype.getTravelRange = function() {
-    return DEBUG_MAX_TRAVEL_RANGE;
+    return space.data.travelRange;
 };
 Ship.prototype.update = function() {
     if (!this.orbiting) return;
@@ -36,6 +57,12 @@ Ship.prototype.enterOrbit = function(planet) {
     this.anchor.x = 1.5;
     this.orbiting = planet;
     this.scanPlanet(planet);
+    if (space.data.upgradeLevel >= 2) {
+        var i;
+        for (i = 0; i < space.planets.length; i++)
+            if (this.inRangeOf(space.planets[i]))
+                this.scanPlanet(space.planets[i]);
+    }
 };
 Ship.prototype.leaveOrbit = function(destination) {
     this.anchor.set(0.5);
@@ -46,7 +73,7 @@ Ship.prototype.travelTo = function(planet) {
     var distance = Phaser.Math.distance(this.orbiting.x, this.orbiting.y, planet.x, planet.y);
     this.leaveOrbit(planet);
     space.hud.inputMask.inputEnabled = true;
-    var shipSpeed = 60;
+    var shipSpeed = space.data.shipSpeed;
     var currentDaysLeft = space.data.daysLeft;
     game.add.tween(space.data).to({
         daysLeft: currentDaysLeft - (distance / shipSpeed * TRAVEL_TIME_FACTOR)
@@ -62,7 +89,7 @@ Ship.prototype.travelTo = function(planet) {
     }, this);
 };
 Ship.prototype.inRangeOf = function(planet) {
-    return Phaser.Math.distance(this.x, this.y, planet.x, planet.y) < DEBUG_MAX_TRAVEL_RANGE;
+    return Phaser.Math.distance(this.x, this.y, planet.x, planet.y) < space.data.travelRange;
 };
 Ship.prototype.scanPlanet = function(planet) {
     if (space.data.exploration[planet.id].scanned) return;

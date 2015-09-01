@@ -4,7 +4,7 @@ var Planet = require('../object/planet');
 var Galaxy = require('../object/galaxy');
 var Hud = require('../object/hud');
 var Data = require('../data');
-var NUM_PLANETS = 100;
+var NUM_PLANETS = 150;
 
 var state = {};
 

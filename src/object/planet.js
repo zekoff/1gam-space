@@ -25,11 +25,15 @@ var Planet = function(id, x, y) {
     this.government = game.rnd.between(0, 1);
     this.terrain = game.rnd.between(0, 1);
     this.size = this.area = game.rnd.between(0, 2);
-    // TODO replace with code to randomly generate number of discoveries
-    this.discoveries.push({
-        unlockAt: game.rnd.between(1, this.PLANET_AREAS[this.area]),
-        id: game.rnd.between(0, this.PLANET_DISCOVERIES.length - 1)
-    });
+    var minDiscoveries = this.area;
+    var maxDiscoveries = Math.ceil((this.PLANET_AREAS[this.area] / 100) / 2);
+    var numberOfDiscoveries = game.rnd.between(minDiscoveries, maxDiscoveries);
+    var i;
+    for (i = 0; i < numberOfDiscoveries; i++)
+        this.discoveries.push({
+            unlockAt: game.rnd.between(1, this.PLANET_AREAS[this.area]),
+            id: game.rnd.between(0, this.PLANET_DISCOVERIES.length - 1)
+        });
     // End RNG properties
 };
 Planet.prototype = Object.create(Phaser.Sprite.prototype);
@@ -101,7 +105,17 @@ Planet.prototype.PLANET_DISCOVERIES = [
     'Unclassified Plant Life',
     'New Animal Species',
     'Abundant Natural Resources',
-    'Toxic Lakes'
+    'Toxic Lakes',
+    'Stone Pillars',
+    'Fossilized Remains',
+    'Precursor Temple',
+    'Unknown Minerals',
+    'Evidence of Terraforming',
+    'Precursor Sculptures',
+    'Ancient Records',
+    'Magnetic Anomaly',
+    'Crystal Spires',
+    'Artificial Caves'
 ];
 Planet.prototype.getDescription = function() {
     var desc = "";
@@ -156,10 +170,44 @@ Planet.prototype.getSpecialFeature = function() {
     }
     else {
         // Poor planets have shipyards
-        // TODO deal w/ upgrades
-        func = function() {
-            print('shipyard');
-        };
+        if (space.data.upgradeLevel < 9) {
+            description += "The shipyard will add " + space.ship.UPGRADE_NAMES[space.data.upgradeLevel] +
+                " to your ship for only only 15,000 credits.";
+            func = function() {
+                if (space.data.credits < 15000) {
+                    space.hud.resultsPanel.showPanel("Insufficient Funds", "test_icon", "You don't have enough money to purchase this upgrade.");
+                    return;
+                }
+                switch (space.data.upgradeLevel) {
+                    case 0:
+                    case 5:
+                        space.data.travelRange *= 2;
+                        break;
+                    case 1:
+                    case 6:
+                        space.data.maxCargo *= 2;
+                        break;
+                    case 3:
+                    case 7:
+                        space.data.shipSpeed *= 2;
+                        break;
+                    default:
+                        break;
+                }
+                space.data.credits -= 15000;
+                space.hud.resultsPanel.showPanel("Purchased " + space.ship.UPGRADE_NAMES[space.data.upgradeLevel],
+                    "test_icon", "You've purchased " + space.ship.UPGRADE_NAMES[space.data.upgradeLevel] + " for 15,000 credits. " + space.ship.UPGRADE_DESCRIPTIONS[space.data.upgradeLevel]);
+                space.data.upgradeLevel++;
+                space.hud.dockedPanel.updatePanel();
+                print(space.data.upgradeLevel);
+            };
+        }
+        else {
+            description += "There are no more ship upgrades to purchase.";
+            func = function() {
+                space.hud.resultsPanel.showPanel("No Upgrades Left", "test_icon", "You've already purchased all available upgrades.");
+            };
+        }
     }
     return {
         name: name,

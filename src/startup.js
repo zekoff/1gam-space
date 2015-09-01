@@ -2,7 +2,7 @@
 var game = new Phaser.Game();
 var print = console.log.bind(console);
 var space = {};
-space.worldSeed = "the once and future king";
+space.worldSeed = "The Once And Future King";
 global.game = game;
 global.print = print;
 global.space = space;

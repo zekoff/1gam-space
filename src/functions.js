@@ -63,13 +63,13 @@ Functions.scan = function() {
         generateResultsChain(resultsList);
         return;
     }
-    var scanCost = 1000;
+    var scanCost = 5000;
     if (scanCost > space.data.credits) {
         resultsList.push(new Result("Scan Cancelled", "test_icon", "You can't afford to purchase a scan."));
         generateResultsChain(resultsList);
         return;
     }
-    var scanResult = 50;
+    var scanResult = 200;
     resultsList.push(new Result("Scan Result", "test_icon", "You purchased a sensor scan of the planet for " +
         scanCost + " credits. The scan covers " + scanResult + " sq. miles of terrain.",
         function() {
@@ -86,7 +86,7 @@ Functions.scan = function() {
 };
 
 Functions.travelEncounter = function() {
-    
+    // TODO make something happen
 };
 
 var Result = function(title, icon, text, result) {

@@ -2,11 +2,10 @@
 
 ## Currently working
 
-Pick something from mandatory list.
+Shipyards and ship upgrade path.
 
 ## Required to finish the game
 
-- Random number of discoveries per planet (more for larger planets)
 - Shipyards and ship upgrade path
 - Info on status panel
 - Icons on multibutton
@@ -17,10 +16,14 @@ Pick something from mandatory list.
 - Improved art assets for UI
 - Better placement of text on UI
 - Improve win screen
+- Add intro screen with story, instructions
+- Implement grappling bream
+- Implement stealth drive
 - Populate HUD with planet info and status info.
 - Resupply cost for travel plus Federation loan if you're out of money
 - Update starfield as ship travels
 - Add skill allocation screen
+- Make sure all skill levels do something
 - Refactor status/planet panel in HUD to ease layout. HUD text slides with
 these panels. That's weird
 - Add random encounters when traveling between planets
@@ -35,7 +38,9 @@ these panels. That's weird
 - Add 'hidden effects' to planet. (Cached goods, rich history, shipwreck, well-charted, etc.)
 - Add random galaxy-level events (food shortage, etc.)
 - Add more exploration flavor events
+- Add more discoveries
 - Exploration summary page: all explored planets, discoveries, etc.
+- Add data persistence and loading
 
 ## Bugs
 
