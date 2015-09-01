@@ -27,6 +27,7 @@ state.create = function() {
 state.update = function() {
     space.hud.timeLeftText.setText("Days remaining: " + space.data.daysLeft.toFixed(0));
     space.hud.moneyText.setText("Credits: " + space.data.credits);
+    if (space.data.daysLeft <= 0) game.state.start('gameover');
 };
 
 module.exports = state;

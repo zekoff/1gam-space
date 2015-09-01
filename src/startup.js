@@ -9,4 +9,5 @@ global.space = space;
 game.state.add('main', require('./state/main'));
 game.state.add('title', require('./state/title'));
 game.state.add('load', require('./state/load'));
+game.state.add('gameover', require('./state/gameover'));
 game.state.start('load');

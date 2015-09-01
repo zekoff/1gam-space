@@ -85,6 +85,10 @@ Functions.scan = function() {
     generateResultsChain(resultsList);
 };
 
+Functions.travelEncounter = function() {
+    
+};
+
 var Result = function(title, icon, text, result) {
     this.title = title;
     this.icon = icon;
