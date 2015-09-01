@@ -36,6 +36,14 @@ var DOCK_INFO_TEXT_STYLE = {
     wordWrapWidth: 190,
     align: 'center'
 };
+var STATUS_PANEL_TEXT = {
+    font: 'bold 14pt sans-serif',
+    fill: 'black',
+    // backgroundColor: 'black',
+    wordWrap: true,
+    wordWrapWidth: 650,
+    align: 'left'
+};
 
 /**
  * Main HUD
@@ -76,6 +84,7 @@ var Hud = function() {
 Hud.prototype = Object.create(Phaser.Group.prototype);
 Hud.prototype.constructor = Hud;
 Hud.prototype.showStatusPanel = function() {
+    this.statusPanel.updatePanel();
     this.inputMask.inputEnabled = true;
     var tween = game.add.tween(this).to({
         y: -500
@@ -260,9 +269,39 @@ var StatusPanel = function() {
     background.width = 770;
     background.fixedToCamera = true;
     this.add(background);
+    var heading = game.make.text(300, 600 + 30, "SHIP STATUS", DEBUG_TEXT_STYLE);
+    heading.fixedToCamera = true;
+    this.add(heading);
+    this.cargoText = game.make.text(50, 600 + 80, "asf", STATUS_PANEL_TEXT);
+    this.cargoText.fixedToCamera = true;
+    this.add(this.cargoText);
+    this.upgradeText = game.make.text(50, 600 + 160, "asdf", STATUS_PANEL_TEXT);
+    this.upgradeText.fixedToCamera = true;
+    this.add(this.upgradeText);
+    this.skillsText = game.make.text(50, 600 + 320, "asdf", STATUS_PANEL_TEXT);
+    this.skillsText.fixedToCamera = true;
+    this.add(this.skillsText);
+    this.creditsText = game.make.text(120, 600 + 400, "asdf", STATUS_PANEL_TEXT);
+    this.creditsText.fixedToCamera = true;
+    this.add(this.creditsText);
+    this.timeText = game.make.text(370, 600 + 400, "asdf", STATUS_PANEL_TEXT);
+    this.timeText.fixedToCamera = true;
+    this.add(this.timeText);
 };
 StatusPanel.prototype = Object.create(Phaser.Group.prototype);
 StatusPanel.prototype.constructor = StatusPanel;
+StatusPanel.prototype.updatePanel = function() {
+    print('updating status panel');
+    this.cargoText.setText(space.data.cargo == null ? "Cargo: None" : "Cargo: " +
+        space.data.cargo.quantity + " units of " + Trade.TRADE_GOOD_NAMES[space.data.cargo.id]);
+    var upgradeList = [];
+    var i;
+    for (i = 0; i < space.data.upgradeLevel; i++) upgradeList.push(space.ship.UPGRADE_NAMES[i]);
+    this.upgradeText.setText(space.data.upgradeLevel == 0 ? "Upgrades: None" : "Upgrades: " + upgradeList.join(", "));
+    this.skillsText.setText("Skills: ");
+    this.creditsText.setText("Credits: " + space.data.credits);
+    this.timeText.setText("Days remaining: " + space.data.daysLeft.toFixed(0));
+};
 
 /**
  * Docked panel
