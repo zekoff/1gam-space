@@ -19,6 +19,8 @@ module.exports = {
         game.load.image('test_icon');
         game.load.image('unscanned');
         game.load.image('docked_bg');
+        game.load.image('multi_button_close');
+        game.load.image('multi_button_ship');
         game.load.start();
     },
     update: function() {

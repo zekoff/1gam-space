@@ -57,9 +57,9 @@ var Hud = function() {
     this.inputMask.alpha = 0;
     this.inputMask.fixedToCamera = true;
     this.add(this.inputMask);
-    this.multiButton = game.make.image(0, 600, 'pix');
-    this.multiButton.width = 60;
-    this.multiButton.height = 60;
+    this.multiButton = game.make.image(0, 600, 'multi_button_ship');
+    this.multiButton.width = 100;
+    this.multiButton.height = 100;
     this.multiButton.fixedToCamera = true;
     this.multiButton.anchor.set(0, 1);
     this.add(this.multiButton);
@@ -83,6 +83,9 @@ Hud.prototype.showStatusPanel = function() {
     tween.onComplete.add(function() {
         this.multiButton.events.onInputUp.addOnce(this.hidePanel, this);
     }, this);
+    this.multiButton.loadTexture('multi_button_close');
+    this.multiButton.height = 100;
+    this.multiButton.width = 100;
 };
 Hud.prototype.showPlanetPanel = function(planet) {
     this.planetPanel.setTargetPlanet(planet);
@@ -99,6 +102,9 @@ Hud.prototype.showPlanetPanel = function(planet) {
     tween.onComplete.add(function() {
         this.multiButton.events.onInputUp.addOnce(this.hidePanel, this);
     }, this);
+    this.multiButton.loadTexture('multi_button_close');
+    this.multiButton.height = 100;
+    this.multiButton.width = 100;
 };
 Hud.prototype.hidePanel = function() {
     var tween = game.add.tween(this).to({
@@ -115,6 +121,9 @@ Hud.prototype.hidePanel = function() {
         game.camera.follow(space.ship);
         this.onPanelHidden.dispatch();
     }, this);
+    this.multiButton.loadTexture('multi_button_ship');
+    this.multiButton.height = 100;
+    this.multiButton.width = 100;
 };
 Hud.prototype.showDockedPanel = function() {
     this.dockedPanel.updatePanel();
@@ -151,6 +160,7 @@ Hud.prototype.hideDockedPanel = function() {
 var PlanetPanel = function() {
     Phaser.Group.call(this, game);
     var background = game.make.image(0, 30, 'pix');
+    background.tint = 0xe2e2e2;
     background.width = 500;
     background.height = 570;
     background.anchor.set(1, 0);
@@ -245,6 +255,7 @@ PlanetPanel.prototype.setTargetPlanet = function(planet) {
 var StatusPanel = function() {
     Phaser.Group.call(this, game);
     var background = game.make.image(0, 600, 'pix');
+    background.tint = 0xe2e2e2;
     background.height = 500;
     background.width = 770;
     background.fixedToCamera = true;
