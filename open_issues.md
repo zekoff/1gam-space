@@ -6,10 +6,8 @@ Shipyards and ship upgrade path.
 
 ## Required to finish the game
 
-- Shipyards and ship upgrade path
 - Info on status panel
 - Icons on multibutton
-- Ability to pan camera around map
 
 ## Todo
 
