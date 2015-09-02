@@ -170,20 +170,22 @@ Planet.prototype.getSpecialFeature = function() {
     }
     else {
         // Poor planets have shipyards
+        var BASE_COST = 10000;
         if (space.data.upgradeLevel < 9) {
+            var cost = BASE_COST * (space.data.upgradeLevel + 1);
             description += "The shipyard will add " + space.ship.UPGRADE_NAMES[space.data.upgradeLevel] +
-                " to your ship for only only 15,000 credits.";
+                " to your ship for only only " + cost + " credits.";
             func = function() {
-                if (space.data.credits < 15000) {
+                if (space.data.credits < cost) {
                     space.hud.resultsPanel.showPanel("Insufficient Funds", "test_icon", "You don't have enough money to purchase this upgrade.");
                     return;
                 }
                 switch (space.data.upgradeLevel) {
-                    case 0:
+                    case 1:
                     case 5:
                         space.data.travelRange *= 2;
                         break;
-                    case 1:
+                    case 2:
                     case 6:
                         space.data.maxCargo *= 2;
                         break;
@@ -194,9 +196,9 @@ Planet.prototype.getSpecialFeature = function() {
                     default:
                         break;
                 }
-                space.data.credits -= 15000;
+                space.data.credits -= cost;
                 space.hud.resultsPanel.showPanel("Purchased " + space.ship.UPGRADE_NAMES[space.data.upgradeLevel],
-                    "test_icon", "You've purchased " + space.ship.UPGRADE_NAMES[space.data.upgradeLevel] + " for 15,000 credits. " + space.ship.UPGRADE_DESCRIPTIONS[space.data.upgradeLevel]);
+                    "test_icon", "You've purchased " + space.ship.UPGRADE_NAMES[space.data.upgradeLevel] + " for " + cost + " credits. " + space.ship.UPGRADE_DESCRIPTIONS[space.data.upgradeLevel]);
                 space.data.upgradeLevel++;
                 space.hud.dockedPanel.updatePanel();
                 print(space.data.upgradeLevel);

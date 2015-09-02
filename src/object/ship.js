@@ -3,7 +3,7 @@ var TRAVEL_TIME_FACTOR = 0.25;
 
 var Ship = function() {
     Phaser.Sprite.call(this, game, 0, 0, 'ship');
-    this.scale.set(0.4);
+    this.scale.set(0.25);
     this.anchor.set(0.5);
     game.add.existing(this);
     this.orbiting = false;
@@ -23,9 +23,9 @@ var Ship = function() {
 Ship.prototype = Object.create(Phaser.Sprite.prototype);
 Ship.prototype.constructor = Ship;
 Ship.prototype.UPGRADE_NAMES = [
+    'Long-Range Scanners',
     'External Fuel Tanks',
     'Smuggler Compartments',
-    'Long-Range Scanners',
     'Military-Grade Engines',
     'Grappling Beams',
     'Cold Fusion Reactors',
@@ -34,9 +34,9 @@ Ship.prototype.UPGRADE_NAMES = [
     'Stealth Rigging'
 ];
 Ship.prototype.UPGRADE_DESCRIPTIONS = [
+    'A long-range scanner allows you to perform a basic scan of any planet in travel range each time you enter orbit.',
     'Adding shielded fuel tanks to the outside of your ship effectively doubles your range.',
     'Hollowed-out walls and floors in your cargo hold give you twice the storage capacity.',
-    'A long-range scanner allows you to perform a basic scan of any planet in range each time you enter orbit.',
     'This fancy new engine doubles your travel speed with no extra fuel cost.',
     'A grappling beam allows you to grab debris as you travel if you have an empty cargo hold.',
     'The latest in fuel cell technology, this reactor doubles your range again, to 4x compared to basic fuel cells.',
@@ -57,7 +57,7 @@ Ship.prototype.enterOrbit = function(planet) {
     this.anchor.x = 1.5;
     this.orbiting = planet;
     this.scanPlanet(planet);
-    if (space.data.upgradeLevel >= 2) {
+    if (space.data.upgradeLevel >= 1) {
         var i;
         for (i = 0; i < space.planets.length; i++)
             if (this.inRangeOf(space.planets[i]))
@@ -97,13 +97,13 @@ Ship.prototype.scanPlanet = function(planet) {
     var size;
     switch (planet.area) {
         case 0:
-            size = 50;
+            size = 20;
             break;
         case 1:
-            size = 80;
+            size = 50;
             break;
         case 2:
-            size = 110;
+            size = 80;
     }
     planet.height = size;
     planet.width = size;

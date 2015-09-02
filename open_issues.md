@@ -6,7 +6,8 @@ Pick something from todo list.
 
 ## Todo
 
-- Improved art assets and text placement for UI
+- Improved art assets (including icons) and text placement for UI
+- Add more info about exploration to Docked screen
 - Improve win screen
 - Add intro screen with story, instructions
 - Implement grappling bream
