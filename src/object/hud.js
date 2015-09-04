@@ -11,6 +11,14 @@ var DEBUG_TEXT_STYLE = {
     wordWrapWidth: 550,
     align: 'center'
 };
+var DOCKED_BUTTON_STYLE = {
+    font: 'bold 20pt sans',
+    fill: 'white',
+    backgroundColor: '#000040',
+    wordWrap: true,
+    wordWrapWidth: 550,
+    align: 'center'
+};
 var PLANET_DESCRIPTION_TEXT_STYLE = {
     font: 'bold 14pt sans-serif',
     fill: 'white',
@@ -30,8 +38,8 @@ var PLANET_NAME_TEXT_STYLE = {
 };
 var DOCK_INFO_TEXT_STYLE = {
     font: '12pt sans-serif',
-    fill: 'white',
-    backgroundColor: 'black',
+    fill: 'black',
+    // backgroundColor: 'black',
     wordWrap: true,
     wordWrapWidth: 190,
     align: 'center'
@@ -298,7 +306,11 @@ StatusPanel.prototype.updatePanel = function() {
     var i;
     for (i = 0; i < space.data.upgradeLevel; i++) upgradeList.push(space.ship.UPGRADE_NAMES[i]);
     this.upgradeText.setText(space.data.upgradeLevel == 0 ? "Upgrades: None" : "Upgrades: " + upgradeList.join(", "));
-    this.skillsText.setText("Skills: ");
+    var skillsList = [];
+    skillsList.push("Negotiation(" + space.data.negotiationSkill + ")");
+    skillsList.push("Exploration(" + space.data.explorationSkill + ")");
+    skillsList.push("Piloting(" + space.data.pilotingSkill + ")");
+    this.skillsText.setText("Skills: " + skillsList.join(", "));
     this.creditsText.setText("Credits: " + space.data.credits);
     this.timeText.setText("Days remaining: " + space.data.daysLeft.toFixed(0));
 };
@@ -336,7 +348,7 @@ var DockedPanel = function() {
     this.timeText.anchor.set(0.5, 0);
     this.add(this.timeText);
 
-    this.buyButton = game.make.text(100, 250, "BUY", DEBUG_TEXT_STYLE);
+    this.buyButton = game.make.text(100, 250, "BUY", DOCKED_BUTTON_STYLE);
     this.buyButton.anchor.set(.5, 0);
     this.buyButton.inputEnabled = true;
     this.buyButton.events.onInputUp.add(Functions.buy, this);
@@ -344,7 +356,7 @@ var DockedPanel = function() {
     this.buyText = game.make.text(100, 300, "", DOCK_INFO_TEXT_STYLE);
     this.buyText.anchor.set(0.5, 0);
     this.add(this.buyText);
-    this.sellButton = game.make.text(300, 250, "SELL", DEBUG_TEXT_STYLE);
+    this.sellButton = game.make.text(300, 250, "SELL", DOCKED_BUTTON_STYLE);
     this.sellButton.anchor.set(.5, 0);
     this.sellButton.inputEnabled = true;
     this.sellButton.events.onInputUp.add(Functions.sell, this);
@@ -353,7 +365,7 @@ var DockedPanel = function() {
     this.sellText.anchor.set(0.5, 0);
     this.add(this.sellText);
 
-    this.exploreButton = game.make.text(500, 250, "EXPLORE", DEBUG_TEXT_STYLE);
+    this.exploreButton = game.make.text(500, 250, "EXPLORE", DOCKED_BUTTON_STYLE);
     this.exploreButton.anchor.set(0.5, 0);
     this.exploreButton.inputEnabled = true;
     this.exploreButton.events.onInputUp.add(Functions.explore, this);
@@ -362,7 +374,7 @@ var DockedPanel = function() {
         "unexplored wilderness of this planet.", DOCK_INFO_TEXT_STYLE);
     this.exploreText.anchor.set(0.5, 0);
     this.add(this.exploreText);
-    this.hireButton = game.make.text(700, 250, "SENSOR SCAN", DEBUG_TEXT_STYLE);
+    this.hireButton = game.make.text(700, 250, "SENSOR SCAN", DOCKED_BUTTON_STYLE);
     this.hireButton.anchor.set(0.5, 0);
     this.hireButton.inputEnabled = true;
     this.hireButton.events.onInputUp.add(Functions.scan, this);
@@ -372,7 +384,7 @@ var DockedPanel = function() {
     this.hireText.anchor.set(0.5, 0);
     this.add(this.hireText);
 
-    this.specialButton = game.make.text(100, 580, "SPECIAL", DEBUG_TEXT_STYLE);
+    this.specialButton = game.make.text(100, 580, "SPECIAL", DOCKED_BUTTON_STYLE);
     this.specialButton.anchor.set(0.5, 1);
     this.specialButton.inputEnabled = true;
     this.specialText = game.make.text(200, 580, "", DOCK_INFO_TEXT_STYLE);

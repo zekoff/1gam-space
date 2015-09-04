@@ -13,7 +13,6 @@ Random daily events
 - Add intro screen with story, instructions
 - Add skill allocation screen
 - Make sure all skill levels do something
-- Add skill readout to status panel
 - Add sound effects
 
 ### Skills to implement
