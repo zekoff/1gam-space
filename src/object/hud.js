@@ -329,6 +329,13 @@ var DockedPanel = function() {
     this.descriptionText.anchor.set(0.5, 0);
     this.add(this.descriptionText);
 
+    this.creditsText = game.make.text(300, 200, "", DOCK_INFO_TEXT_STYLE);
+    this.creditsText.anchor.set(0.5, 0);
+    this.add(this.creditsText);
+    this.timeText = game.make.text(600, 200, "", DOCK_INFO_TEXT_STYLE);
+    this.timeText.anchor.set(0.5, 0);
+    this.add(this.timeText);
+
     this.buyButton = game.make.text(100, 250, "BUY", DEBUG_TEXT_STYLE);
     this.buyButton.anchor.set(.5, 0);
     this.buyButton.inputEnabled = true;
@@ -351,11 +358,19 @@ var DockedPanel = function() {
     this.exploreButton.inputEnabled = true;
     this.exploreButton.events.onInputUp.add(Functions.explore, this);
     this.add(this.exploreButton);
+    this.exploreText = game.make.text(500, 300, "Launch a 3-day expedition into the " +
+        "unexplored wilderness of this planet.", DOCK_INFO_TEXT_STYLE);
+    this.exploreText.anchor.set(0.5, 0);
+    this.add(this.exploreText);
     this.hireButton = game.make.text(700, 250, "SENSOR SCAN", DEBUG_TEXT_STYLE);
     this.hireButton.anchor.set(0.5, 0);
     this.hireButton.inputEnabled = true;
     this.hireButton.events.onInputUp.add(Functions.scan, this);
     this.add(this.hireButton);
+    this.hireText = game.make.text(700, 300, "Purchase a sensor scan of unexplored " +
+        "area on this planet for 5000 credits.", DOCK_INFO_TEXT_STYLE);
+    this.hireText.anchor.set(0.5, 0);
+    this.add(this.hireText);
 
     this.specialButton = game.make.text(100, 580, "SPECIAL", DEBUG_TEXT_STYLE);
     this.specialButton.anchor.set(0.5, 1);
@@ -364,6 +379,13 @@ var DockedPanel = function() {
     this.specialText.anchor.set(0, 1);
     this.add(this.specialText);
     this.add(this.specialButton);
+
+    this.exploredText = game.make.text(600, 450, "", DOCK_INFO_TEXT_STYLE);
+    this.exploredText.anchor.set(0.5);
+    this.add(this.exploredText);
+    this.discoveriesText = game.make.text(600, 500, "", DOCK_INFO_TEXT_STYLE);
+    this.discoveriesText.anchor.set(0.5);
+    this.add(this.discoveriesText);
 };
 DockedPanel.prototype = Object.create(Phaser.Group.prototype);
 DockedPanel.prototype.constructor = DockedPanel;
@@ -371,11 +393,15 @@ DockedPanel.prototype.updatePanel = function() {
     var planet = space.ship.orbiting;
     this.nameText.setText(planet.name);
     this.descriptionText.setText(planet.getDescription());
+    this.creditsText.setText("Credits: " + space.data.credits);
+    this.timeText.setText("Days remaining: " + space.data.daysLeft.toFixed(0));
     this.buyText.setText(Trade.getBuyText(planet));
     this.sellText.setText(Trade.getSellText(planet));
-    // update exploration text
-    // update survey text
-    // update discoveries text
+    this.exploredText.setText("Explored: " + Math.floor(space.data.exploration[planet.id].explored /
+        planet.PLANET_AREAS[planet.area] * 100) + "%");
+    var discoveries = planet.getDiscoveries();
+    this.discoveriesText.setText("Discoveries: " +
+        (discoveries.length > 0 ? discoveries.join(", ") : "None"));
     var specialFeature = planet.getSpecialFeature();
     this.specialButton.setText(specialFeature.name);
     this.specialText.setText(specialFeature.description);

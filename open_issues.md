@@ -8,7 +8,6 @@ Random daily events
 
 - Improved art assets (including icons) and text placement for UI
 - Add undock button
-- Add more info about exploration to docked screen
 - Improve win screen
 - Improve background star field (better graphic at least)
 - Add intro screen with story, instructions
