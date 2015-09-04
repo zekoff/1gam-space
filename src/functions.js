@@ -87,15 +87,20 @@ Functions.scan = function() {
 
 Functions.travelResults = function(distance) {
     print(distance);
+    var deltaCredits = 0;
     var resultsList = [];
     // Manage global event if one isn't active, or decrement if active
     // Chance for 0..n random good events (more if better piloting skill)
     if (space.data.upgradeLevel < 9) {
-        while (game.rnd.frac() < .2)
-            resultsList.push(createRandomBadTravelEvent());
+        while (game.rnd.frac() < .2) {
+            var badEvent = createRandomBadTravelEvent();
+            deltaCredits -= badEvent[0];
+            resultsList.push(badEvent[1]);
+        }
     }
     if (space.data.upgradeLevel >= 5 && !space.data.cargo) {
         var grapplingBeamAmount = game.rnd.between(1000, 4000);
+        deltaCredits += grapplingBeamAmount;
         resultsList.push(new Result('Salvaged Scrap', 'test_icon', 'Because your cargo hold is empty, ' +
             'you were able to salvage ' + grapplingBeamAmount + ' credits worth of scrap with your grappling beam.',
             function() {
@@ -103,13 +108,19 @@ Functions.travelResults = function(distance) {
             }));
     }
     var resupplyCost = Math.ceil(distance * 2 * (space.data.upgradeLevel + 1) / 2);
+    deltaCredits -= resupplyCost;
     resultsList.push(new Result('Resupply Costs', 'test_icon', 'Based on the length ' +
         'of your journey and the cost of various components of your ship, your ' +
         'resupply costs total ' + resupplyCost + '.',
         function() {
             space.data.credits -= resupplyCost;
         }));
-    // Check for being under credits; give loan from Federation if so
+    if (space.data.credits + deltaCredits <= 0) resultsList.push(new Result("Out of Credits", "test_icon", "You have run " +
+        "out of money. The Federation grants you a loan to continue exploration, but they are very unhappy.",
+        function() {
+            space.data.extraLoans++;
+            space.data.credits += 5000;
+        }));
     generateResultsChain(resultsList);
 };
 
@@ -131,6 +142,11 @@ var createDiscoveryUnlockResults = function(currentExploration, newExploration) 
 };
 
 var createRandomExplorationEvent = function() {
+    /*
+    I know what an ugly interface this creates (returning an array where all
+    similar functions return just the Result), but I'm accepting it so I can
+    get this feature done.
+    */
     return game.rnd.pick([
         new Result("Found Shipwreck", "test_icon", "While exploring, you find a spaceship that crash landed here. The ruins have been picked pretty clean, but on an old data drive you find 1000 credits.", function() {
             space.data.credits += 1000;
@@ -158,7 +174,7 @@ var createRandomBadTravelEvent = function() {
     var negativeFunction = function() {
         space.data.credits -= amountLost;
     };
-    return game.rnd.pick([
+    return [amountLost, game.rnd.pick([
         new Result("Solar Storm", "test_icon", "The radiation from a solar storm " +
             "damaged your ship during travel. It will cost " + amountLost + " to repair the damage.", negativeFunction),
         new Result("Meteorite Strike", "test_icon", "A small meteorite strikes your ship " +
@@ -166,7 +182,7 @@ var createRandomBadTravelEvent = function() {
         new Result("Cargo Door Malfunction", "test_icon", "The door to the ship's cargo " +
             "hold malfunctioned and your cargo was lost. Your insurance will cover the repurchase " +
             "when you arrive, but the deductible will be " + amountLost + ".", negativeFunction)
-    ]);
+    ])];
 };
 
 var generateResultsChain = function(resultsList) {

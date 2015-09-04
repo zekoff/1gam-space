@@ -9,12 +9,13 @@ module.exports = {
         }
         return {
             exploration: exploration,
+            extraLoans: 0,
             shipSpeed: 30,
             travelRange: 150,
             maxCargo: 100,
             upgradeLevel: 0,
             cargo: null,
-            credits: 1000000,
+            credits: 10000,
             daysLeft: 365,
             negotiationSkill: 2,
             explorationSkill: 1,

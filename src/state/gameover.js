@@ -25,6 +25,7 @@ state.create = function() {
     for (i = 0; i < space.planets.length; i++) {
         score += space.planets[i].getDiscoveries().length * 3;
     }
+    if (space.data.extraLoans > 0) score /= space.data.extraLoans;
     game.add.text(400, 300, "Final Score: " + score, DEBUG_TEXT_STYLE).anchor.set(0.5);
 };
 
