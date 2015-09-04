@@ -30,7 +30,7 @@ Functions.explore = function() {
         generateResultsChain(resultsList);
         return;
     }
-    var exploreTime = 2;
+    var exploreTime = 3;
     // TODO random event to boost exploration result?
     var exploreResult = space.data.explorationSkill * 100;
     var roughTerrain = planet.terrain == 1;
@@ -85,8 +85,32 @@ Functions.scan = function() {
     generateResultsChain(resultsList);
 };
 
-Functions.travelEncounter = function() {
-    // TODO make something happen
+Functions.travelResults = function(distance) {
+    print(distance);
+    var resultsList = [];
+    // Manage global event if one isn't active, or decrement if active
+    // Chance for 0..n random good events (more if better piloting skill)
+    if (space.data.upgradeLevel < 9) {
+        while (game.rnd.frac() < .2)
+            resultsList.push(createRandomBadTravelEvent());
+    }
+    if (space.data.upgradeLevel >= 5 && !space.data.cargo) {
+        var grapplingBeamAmount = game.rnd.between(1000, 4000);
+        resultsList.push(new Result('Salvaged Scrap', 'test_icon', 'Because your cargo hold is empty, ' +
+            'you were able to salvage ' + grapplingBeamAmount + ' credits worth of scrap with your grappling beam.',
+            function() {
+                space.data.credits += grapplingBeamAmount;
+            }));
+    }
+    var resupplyCost = Math.ceil(distance * 2 * (space.data.upgradeLevel + 1) / 2);
+    resultsList.push(new Result('Resupply Costs', 'test_icon', 'Based on the length ' +
+        'of your journey and the cost of various components of your ship, your ' +
+        'resupply costs total ' + resupplyCost + '.',
+        function() {
+            space.data.credits -= resupplyCost;
+        }));
+    // Check for being under credits; give loan from Federation if so
+    generateResultsChain(resultsList);
 };
 
 var Result = function(title, icon, text, result) {
@@ -120,6 +144,28 @@ var createRandomExplorationEvent = function() {
         new Result("Brush with Death", "test_icon", "Your party is ambushed by local fauna. One of your party members is gravely injured, but everyone makes it back alive."),
         new Result("Beautiful View", "test_icon", "During this expedition you find an incredible vista overlooking the landscape. Even after all these years exploring, you can still appreciate a sunset."),
         new Result("Encounter with the Numinous", "test_icon", "Near an ancient stone circle, a deathly chill overcomes your party even though the sun is shining brightly. No one speaks a word of it, even long after.")
+    ]);
+};
+
+var createRandomGoodTravelEvent = function() {
+    return game.rnd.pick([
+        new Result("", "test_icon", "", function() {})
+    ]);
+};
+
+var createRandomBadTravelEvent = function() {
+    var amountLost = game.rnd.between(200, 800);
+    var negativeFunction = function() {
+        space.data.credits -= amountLost;
+    };
+    return game.rnd.pick([
+        new Result("Solar Storm", "test_icon", "The radiation from a solar storm " +
+            "damaged your ship during travel. It will cost " + amountLost + " to repair the damage.", negativeFunction),
+        new Result("Meteorite Strike", "test_icon", "A small meteorite strikes your ship " +
+            "during travel. It will cost " + amountLost + " to repair the hull damage.", negativeFunction),
+        new Result("Cargo Door Malfunction", "test_icon", "The door to the ship's cargo " +
+            "hold malfunctioned and your cargo was lost. Your insurance will cover the repurchase " +
+            "when you arrive, but the deductible will be " + amountLost + ".", negativeFunction)
     ]);
 };
 

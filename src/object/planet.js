@@ -5,8 +5,8 @@ var Planet = function(id, x, y) {
     Phaser.Sprite.call(this, game, x, y, 'unscanned');
     game.add.existing(this);
     this.id = id;
-    this.width = 40;
-    this.height = 40;
+    this.width = 30;
+    this.height = 30;
     this.anchor.set(0.5);
     this.tint = 0xccccff;
     this.inputEnabled = true;

@@ -1,5 +1,6 @@
 /* global Phaser, game, space */
-var TRAVEL_TIME_FACTOR = 0.25;
+var Functions = require('../functions');
+var TRAVEL_TIME_FACTOR = 0.5;
 
 var Ship = function() {
     Phaser.Sprite.call(this, game, 0, 0, 'ship');
@@ -85,6 +86,7 @@ Ship.prototype.travelTo = function(planet) {
     tween.onComplete.add(function() {
         space.hud.inputMask.inputEnabled = false;
         this.enterOrbit(planet);
+        Functions.travelResults(distance);
         this.onTravelComplete.dispatch();
     }, this);
 };
@@ -97,13 +99,13 @@ Ship.prototype.scanPlanet = function(planet) {
     var size;
     switch (planet.area) {
         case 0:
-            size = 20;
+            size = 25;
             break;
         case 1:
             size = 50;
             break;
         case 2:
-            size = 80;
+            size = 75;
     }
     planet.height = size;
     planet.width = size;
