@@ -117,9 +117,6 @@ Trade.sellGood = function(planet) {
     result.icon = "test_icon";
     result.text = "You sold " + space.data.cargo.quantity + " units of " + name +
         " for " + sellPrice + ".";
-    if (calculateNegotiationBonus() > 0)
-        result.text += " You were able to negotiate for a " +
-        (calculateNegotiationBonus() * 100).toFixed(0) + "% higher sale price.";
     result.result = function() {
         space.data.cargo = null;
         space.data.credits += sellPrice;
@@ -129,8 +126,7 @@ Trade.sellGood = function(planet) {
 
 var calculateNegotiationBonus = function() {
     var bonus = 0;
-    if (space.data.negotiationSkill == 3) bonus += .2;
-    else if (space.data.negotiationSkill == 2) bonus += .1;
+    if (space.data.negotiationSkill > 1) bonus += .2;
     return bonus;
 };
 

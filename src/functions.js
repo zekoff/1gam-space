@@ -31,7 +31,6 @@ Functions.explore = function() {
         return;
     }
     var exploreTime = 3;
-    // TODO random event to boost exploration result?
     var exploreResult = game.rnd.between(100, 350);
     var roughTerrain = planet.terrain == 1;
     if (roughTerrain && space.data.explorationSkill < 3) exploreResult /= 2;

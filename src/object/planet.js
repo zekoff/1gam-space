@@ -154,8 +154,14 @@ Planet.prototype.getSpecialFeature = function() {
                 space.hud.resultsPanel.showPanel("Unusable Cargo", "test_icon", "You are carrying " + Trade.TRADE_GOOD_NAMES[space.data.cargo.id] + ". The refinery can only refine " + Trade.TRADE_GOOD_NAMES[tradeGood] + " from " + Trade.TRADE_GOOD_NAMES[neededGood] + ".");
                 return;
             }
+            if (space.data.negotiationSkill == 3) {
+                space.hud.resultsPanel.showPanel("Refined " + Trade.TRADE_GOOD_NAMES[tradeGood], "test_icon", "You negotiated to have your cargo of " + Trade.TRADE_GOOD_NAMES[neededGood] + " refined into " + Trade.TRADE_GOOD_NAMES[tradeGood] + " at no cost.");
+                space.data.cargo.id = tradeGood;
+                space.data.cargo.purchasedAt = space.ship.orbiting.id;
+                space.hud.dockedPanel.updatePanel();
+                return;
+            }
             var unitPriceToRefine = (Trade.TRADE_GOOD_PRICES[tradeGood] - Trade.TRADE_GOOD_PRICES[neededGood]) / 5;
-            print(unitPriceToRefine);
             var totalCost = unitPriceToRefine * space.data.cargo.quantity;
             if (totalCost > space.data.credits) {
                 space.hud.resultsPanel.showPanel("Insufficient Funds", "test_icon", "You do not have enough money to convert your cargo of " + Trade.TRADE_GOOD_NAMES[neededGood] + " to " + Trade.TRADE_GOOD_NAMES[tradeGood] + ".");
