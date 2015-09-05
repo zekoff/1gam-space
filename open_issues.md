@@ -12,7 +12,6 @@ Random daily events
 - Improve background star field (better graphic at least)
 - Add intro screen with story, instructions
 - Add skill allocation screen
-- Make sure all skill levels do something
 - Add sound effects
 
 ### Skills to implement

@@ -76,8 +76,10 @@ Ship.prototype.travelTo = function(planet) {
     space.hud.inputMask.inputEnabled = true;
     var shipSpeed = space.data.shipSpeed;
     var currentDaysLeft = space.data.daysLeft;
+    var finalTravelFactor = TRAVEL_TIME_FACTOR;
+    if (space.data.pilotingSkill == 3) finalTravelFactor *= .75;
     game.add.tween(space.data).to({
-        daysLeft: currentDaysLeft - (distance / shipSpeed * TRAVEL_TIME_FACTOR)
+        daysLeft: currentDaysLeft - (distance / shipSpeed * finalTravelFactor)
     }, (distance / shipSpeed) * 1000, Phaser.Easing.Linear.None).start();
     var tween = game.add.tween(this).to({
         x: planet.x,

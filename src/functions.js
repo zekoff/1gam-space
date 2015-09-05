@@ -97,7 +97,6 @@ Functions.scan = function() {
 };
 
 Functions.travelResults = function(distance) {
-    print(distance);
     var deltaCredits = 0;
     var resultsList = [];
     // Manage global event if one isn't active, or decrement if active
@@ -119,9 +118,10 @@ Functions.travelResults = function(distance) {
             }));
     }
     var resupplyCost = Math.ceil(distance * 2 * (space.data.upgradeLevel + 1) / 2);
+    if (space.data.pilotingSkill > 1) resupplyCost /= 2;
     deltaCredits -= resupplyCost;
     resultsList.push(new Result('Resupply Costs', 'test_icon', 'Based on the length ' +
-        'of your journey and the cost of various components of your ship, your ' +
+        'of your journey, your piloting skill, and the cost of various components of your ship, your ' +
         'resupply costs total ' + resupplyCost + '.',
         function() {
             space.data.credits -= resupplyCost;

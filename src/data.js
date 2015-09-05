@@ -19,7 +19,7 @@ module.exports = {
             daysLeft: 365,
             negotiationSkill: 3,
             explorationSkill: 3,
-            pilotingSkill: 1
+            pilotingSkill: 3
         };
     }
 };
