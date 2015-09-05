@@ -12,7 +12,29 @@ Pick something from final to-do list.
 - Improve background star field (better graphic at least)
 - Add sound effects
 
+### Needed icons for results screen
+
+- Discovery
+- Fully explored
+- Fallback icon (check mark?)
+- Resupply
+- Bad travel effect
+- Scavenging results
+- Flavor event
+- Buy goods (icon for each good?)
+- Sell goods (icon for each good?)
+- Ship upgrade
+- Refine goods
+- Exploration results
+- Fully explored
+- Scan results
+- Grapple beam
+- Federation additional loan
+- Random exploration event
+- Can't take action for whatever reason
+
 ### Skills to implement
+
 - Negotation 1: 20% discount when buying goods
 - Negotation 2: Free use of refineries
 - Exploration 1: Scavenge while exploring

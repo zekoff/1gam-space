@@ -34,9 +34,12 @@ state.create = function() {
     }
     score += discovered * 3;
     game.add.text(400, 150, "Discoveries made (3 points each): " + discovered, DEBUG_TEXT_STYLE).anchor.set(0.5);
-
-    if (space.data.extraLoans > 0) score /= space.data.extraLoans;
-    game.add.text(400, 300, "Final Score: " + score, DEBUG_TEXT_STYLE).anchor.set(0.5);
+    if (space.data.extraLoans > 0) {
+        game.add.text(400, 200, "Penalty for extra Federation loan:", DEBUG_TEXT_STYLE).anchor.set(0.5);
+        game.add.text(400, 230, "Score divided by " + (space.data.extraLoans + 1), DEBUG_TEXT_STYLE).anchor.set(0.5);
+        score /= space.data.extraLoans + 1;
+    }
+    game.add.text(400, 350, "Final Score: " + Math.floor(score), DEBUG_TEXT_STYLE).anchor.set(0.5);
 
     var timer = game.time.create();
     timer.add(3000, function() {
