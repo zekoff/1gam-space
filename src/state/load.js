@@ -15,6 +15,7 @@ module.exports = {
         game.load.image('pix');
         game.load.image('ship');
         game.load.image('starfield');
+        game.load.image('starfield3');
         game.load.image('range_marker');
         game.load.image('test_icon');
         game.load.image('unscanned');

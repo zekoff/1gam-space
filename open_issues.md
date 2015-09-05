@@ -40,6 +40,3 @@ Pick something from final to-do list.
 - Add data persistence and loading
 
 ## Bugs
-
-- When planet info panel is open, can click somewhere other than button to pass
-click down to map and pan the map.

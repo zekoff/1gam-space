@@ -182,6 +182,7 @@ var PlanetPanel = function() {
     background.height = 570;
     background.anchor.set(1, 0);
     background.fixedToCamera = true;
+    background.inputEnabled = true;
     this.add(background);
     this.name = game.make.text(-250, 70, "", PLANET_NAME_TEXT_STYLE);
     this.name.anchor.set(0.5, 0);
@@ -288,6 +289,7 @@ var StatusPanel = function() {
     background.height = 500;
     background.width = 770;
     background.fixedToCamera = true;
+    background.inputEnabled = true;
     this.add(background);
     var heading = game.make.text(300, 600 + 30, "SHIP STATUS", DEBUG_TEXT_STYLE);
     heading.fixedToCamera = true;
