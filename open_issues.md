@@ -13,6 +13,7 @@ Pick something from final to-do list.
 - Add intro screen with story, instructions
 - Add skill allocation screen
 - Add sound effects
+- Clean up results panel (better button, better background color, etc.)
 
 ### Skills to implement
 - Negotation 1: 20% discount when buying goods
