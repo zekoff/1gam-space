@@ -11,6 +11,14 @@ var DEBUG_TEXT_STYLE = {
     wordWrapWidth: 550,
     align: 'center'
 };
+var RESULTS_TEXT_STYLE = {
+    font: '18pt sans',
+    fill: 'black',
+    // backgroundColor: 'black',
+    wordWrap: true,
+    wordWrapWidth: 550,
+    align: 'center'
+};
 var DOCKED_BUTTON_STYLE = {
     font: 'bold 20pt sans',
     fill: 'white',
@@ -443,23 +451,28 @@ var ResultsPanel = function() {
     var inputMask = game.make.image(0, 0, 'pix');
     inputMask.width = 800;
     inputMask.height = 600;
-    inputMask.alpha = 0;
+    inputMask.tint = 0x000000;
+    inputMask.alpha = .75;
     inputMask.fixedToCamera = true;
     this.add(this.inputMask = inputMask);
     var background = game.make.image(100, 100, 'pix');
     background.width = 600;
     background.height = 400;
-    background.tint = 0xffaaff;
+    background.tint = 0xe2e2e2;
     background.fixedToCamera = true;
     this.add(background);
-    this.okButton = game.make.button(400, 450, 'pix', this.hidePanel, this);
+    this.okButton = game.make.button(400, 430, 'pix', this.hidePanel, this);
     this.okButton.anchor.set(0.5);
-    this.okButton.width = 100;
-    this.okButton.height = 40;
+    this.okButton.width = 150;
+    this.okButton.height = 60;
     this.okButton.tint = 0x00ff00;
     this.okButton.fixedToCamera = true;
     this.okButton.inputEnabled = false;
     this.add(this.okButton);
+    this.okText = game.make.text(400, 430, "OK", RESULTS_TEXT_STYLE);
+    this.okText.anchor.set(0.5);
+    this.okText.fixedToCamera = true;
+    this.add(this.okText);
     this.onDismissed = new Phaser.Signal();
     this.title = game.make.text(400, 150, "TEST", DEBUG_TEXT_STYLE);
     this.title.anchor.set(0.5);
@@ -469,7 +482,7 @@ var ResultsPanel = function() {
     this.icon.anchor.set(0.5);
     this.icon.fixedToCamera = true;
     this.add(this.icon);
-    this.text = game.make.text(400, 250, "TESTING", DEBUG_TEXT_STYLE);
+    this.text = game.make.text(400, 250, "TESTING", RESULTS_TEXT_STYLE);
     this.text.anchor.set(0.5, 0);
     this.text.fixedToCamera = true;
     this.add(this.text);

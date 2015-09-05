@@ -11,7 +11,6 @@ Pick something from final to-do list.
 - Improve win screen
 - Improve background star field (better graphic at least)
 - Add sound effects
-- Clean up results panel (better button, better background color, etc.)
 
 ### Skills to implement
 - Negotation 1: 20% discount when buying goods
