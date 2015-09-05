@@ -17,9 +17,9 @@ module.exports = {
             cargo: null,
             credits: 10000,
             daysLeft: 365,
-            negotiationSkill: 3,
-            explorationSkill: 3,
-            pilotingSkill: 3
+            negotiationSkill: 1,
+            explorationSkill: 1,
+            pilotingSkill: 1
         };
     }
 };

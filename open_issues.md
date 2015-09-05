@@ -8,7 +8,7 @@ Pick something from final to-do list.
 
 - Add icons to various results panels
 - Add undock button
-- Improve win screen
+- Add title screen graphic
 - Improve background star field (better graphic at least)
 - Add sound effects
 

@@ -209,7 +209,7 @@ var PlanetPanel = function() {
     this.discoveries.fixedToCamera = true;
     this.add(this.discoveries);
 
-    this.buttonText = game.make.text(-250, 500, "", STATUS_PANEL_TEXT);
+    this.buttonText = game.make.text(-250, 550, "", STATUS_PANEL_TEXT);
     this.buttonText.anchor.set(0.5);
     this.buttonText.fixedToCamera = true;
     this.add(this.buttonText);
@@ -239,7 +239,7 @@ PlanetPanel.prototype.setTargetPlanet = function(planet) {
             planet.PLANET_AREAS[planet.area] * 100) + "%");
     this.targetPlanet = planet;
     if (this.targetPlanet === space.ship.orbiting) {
-        this.travelButton = game.make.button(-250, 500, 'pix', function() {
+        this.travelButton = game.make.button(-250, 550, 'pix', function() {
             space.hud.hidePanel();
             space.hud.onPanelHidden.addOnce(function() {
                 space.hud.showDockedPanel();
@@ -257,7 +257,7 @@ PlanetPanel.prototype.setTargetPlanet = function(planet) {
     }
     var inRange = space.ship.inRangeOf(this.targetPlanet);
     if (inRange) {
-        this.travelButton = game.make.button(-250, 500, 'pix', function() {
+        this.travelButton = game.make.button(-250, 550, 'pix', function() {
             space.hud.hidePanel();
             space.hud.onPanelHidden.addOnce(function() {
                 space.ship.travelTo(this.targetPlanet);
@@ -273,7 +273,7 @@ PlanetPanel.prototype.setTargetPlanet = function(planet) {
         this.buttonText.bringToTop();
         return;
     }
-    this.travelButton = game.make.button(-250, 500, 'pix', function() {
+    this.travelButton = game.make.button(-250, 550, 'pix', function() {
         print('out of range');
         space.hud.resultsPanel.showPanel();
     }, this);
