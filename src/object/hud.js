@@ -392,11 +392,11 @@ var DockedPanel = function() {
     this.add(this.specialText);
     this.add(this.specialButton);
 
-    this.exploredText = game.make.text(600, 450, "", DOCK_INFO_TEXT_STYLE);
-    this.exploredText.anchor.set(0.5);
+    this.exploredText = game.make.text(600, 420, "", DOCK_INFO_TEXT_STYLE);
+    this.exploredText.anchor.set(0.5, 0);
     this.add(this.exploredText);
-    this.discoveriesText = game.make.text(600, 500, "", DOCK_INFO_TEXT_STYLE);
-    this.discoveriesText.anchor.set(0.5);
+    this.discoveriesText = game.make.text(600, 450, "", DOCK_INFO_TEXT_STYLE);
+    this.discoveriesText.anchor.set(0.5, 0);
     this.add(this.discoveriesText);
 };
 DockedPanel.prototype = Object.create(Phaser.Group.prototype);

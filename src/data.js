@@ -18,7 +18,7 @@ module.exports = {
             credits: 10000,
             daysLeft: 365,
             negotiationSkill: 2,
-            explorationSkill: 1,
+            explorationSkill: 3,
             pilotingSkill: 1
         };
     }

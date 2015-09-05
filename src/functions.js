@@ -32,13 +32,17 @@ Functions.explore = function() {
     }
     var exploreTime = 3;
     // TODO random event to boost exploration result?
-    var exploreResult = space.data.explorationSkill * 100;
+    var exploreResult = game.rnd.between(100, 350);
     var roughTerrain = planet.terrain == 1;
-    if (roughTerrain) exploreResult /= 2;
+    if (roughTerrain && space.data.explorationSkill < 3) exploreResult /= 2;
+    exploreResult = Math.floor(exploreResult);
     var exploreMessage = "You explored " +
         exploreResult + " sq. miles of the planet's surface. The expedition took " +
-        exploreTime + " days.";
-    if (roughTerrain) exploreMessage += "The rough terrain made for slow going.";
+        exploreTime + " days. ";
+    if (roughTerrain && space.data.explorationSkill < 3)
+        exploreMessage += " The rough terrain made for slow going. ";
+    else if (roughTerrain && space.data.explorationSkill == 3)
+        exploreMessage += "Despite the rough terrain, you are skilled enough to push ahead full-speed.";
     resultsList.push(new Result("Expedition Result", "test_icon", exploreMessage,
         function() {
             space.data.daysLeft -= exploreTime;
@@ -48,6 +52,14 @@ Functions.explore = function() {
                 resultsList.push(new Result("Planet Fully Explored!", "test_icon", "You've completely explored this planet! The Federation will be pleased."));
             }
         }));
+    if (space.data.explorationSkill > 1) {
+        var scavengedAmount = game.rnd.between(200, 1000);
+        resultsList.push(new Result("Scavenged Resources", "test_icon", "As a skilled explorer, " +
+            "you were able to scavenge " + scavengedAmount + " credits worth of resources during your expedition.",
+            function() {
+                space.data.credits += scavengedAmount;
+            }));
+    }
     Array.prototype.push.apply(resultsList,
         createDiscoveryUnlockResults(currentExploration, currentExploration + exploreResult));
     while (game.rnd.frac() < .15) resultsList.push(createRandomExplorationEvent());
