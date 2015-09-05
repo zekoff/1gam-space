@@ -10,8 +10,6 @@ Pick something from final to-do list.
 - Add undock button
 - Improve win screen
 - Improve background star field (better graphic at least)
-- Add intro screen with story, instructions
-- Add skill allocation screen
 - Add sound effects
 - Clean up results panel (better button, better background color, etc.)
 
