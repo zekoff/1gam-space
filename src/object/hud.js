@@ -183,22 +183,27 @@ var PlanetPanel = function() {
     background.anchor.set(1, 0);
     background.fixedToCamera = true;
     this.add(background);
-    this.name = game.make.text(0, 0, "", PLANET_NAME_TEXT_STYLE);
-    this.name.anchor.set(1, 0);
+    this.name = game.make.text(-250, 70, "", PLANET_NAME_TEXT_STYLE);
+    this.name.anchor.set(0.5, 0);
     this.name.fixedToCamera = true;
     this.add(this.name);
-    this.description = game.make.text(0, 150, "", PLANET_DESCRIPTION_TEXT_STYLE);
-    this.description.anchor.set(1, 0);
+    this.description = game.make.text(-250, 150, "", PLANET_DESCRIPTION_TEXT_STYLE);
+    this.description.anchor.set(0.5, 0);
     this.description.fixedToCamera = true;
     this.add(this.description);
-    this.explorePercentage = game.make.text(0, 400, "", PLANET_DESCRIPTION_TEXT_STYLE);
-    this.explorePercentage.anchor.set(1, 0);
+    this.explorePercentage = game.make.text(-250, 320, "", DOCK_INFO_TEXT_STYLE);
+    this.explorePercentage.anchor.set(0.5, 0);
     this.explorePercentage.fixedToCamera = true;
     this.add(this.explorePercentage);
-    this.discoveries = game.make.text(0, 450, "", PLANET_DESCRIPTION_TEXT_STYLE);
-    this.discoveries.anchor.set(1, 0);
+    this.discoveries = game.make.text(-250, 360, "", DOCK_INFO_TEXT_STYLE);
+    this.discoveries.anchor.set(0.5, 0);
     this.discoveries.fixedToCamera = true;
     this.add(this.discoveries);
+
+    this.buttonText = game.make.text(-250, 500, "", STATUS_PANEL_TEXT);
+    this.buttonText.anchor.set(0.5);
+    this.buttonText.fixedToCamera = true;
+    this.add(this.buttonText);
 };
 PlanetPanel.prototype = Object.create(Phaser.Group.prototype);
 PlanetPanel.prototype.constructor = PlanetPanel;
@@ -225,45 +230,52 @@ PlanetPanel.prototype.setTargetPlanet = function(planet) {
             planet.PLANET_AREAS[planet.area] * 100) + "%");
     this.targetPlanet = planet;
     if (this.targetPlanet === space.ship.orbiting) {
-        this.travelButton = game.make.button(-300, 60, 'pix', function() {
+        this.travelButton = game.make.button(-250, 500, 'pix', function() {
             space.hud.hidePanel();
             space.hud.onPanelHidden.addOnce(function() {
                 space.hud.showDockedPanel();
             }, this);
         }, this);
-        this.travelButton.width = 50;
-        this.travelButton.height = 30;
+        this.travelButton.width = 200;
+        this.travelButton.height = 70;
         this.travelButton.tint = 0x0000ff;
         this.travelButton.fixedToCamera = true;
+        this.travelButton.anchor.set(0.5);
         this.add(this.travelButton);
-
+        this.buttonText.setText("DOCK");
+        this.buttonText.bringToTop();
         return;
     }
     var inRange = space.ship.inRangeOf(this.targetPlanet);
     if (inRange) {
-        this.travelButton = game.make.button(-300, 60, 'pix', function() {
+        this.travelButton = game.make.button(-250, 500, 'pix', function() {
             space.hud.hidePanel();
             space.hud.onPanelHidden.addOnce(function() {
                 space.ship.travelTo(this.targetPlanet);
             }, this);
         }, this);
-        this.travelButton.width = 50;
-        this.travelButton.height = 30;
+        this.travelButton.width = 200;
+        this.travelButton.height = 70;
         this.travelButton.tint = 0x00ff00;
         this.travelButton.fixedToCamera = true;
+        this.travelButton.anchor.set(0.5);
         this.add(this.travelButton);
+        this.buttonText.setText("TRAVEL");
+        this.buttonText.bringToTop();
         return;
     }
-    this.travelButton = game.make.button(-300, 60, 'pix', function() {
+    this.travelButton = game.make.button(-250, 500, 'pix', function() {
         print('out of range');
         space.hud.resultsPanel.showPanel();
     }, this);
-    this.travelButton.width = 50;
-    this.travelButton.height = 30;
+    this.travelButton.width = 200;
+    this.travelButton.height = 70;
     this.travelButton.tint = 0x404040;
     this.travelButton.fixedToCamera = true;
+    this.travelButton.anchor.set(0.5);
     this.add(this.travelButton);
-
+    this.buttonText.setText("OUT OF RANGE");
+    this.buttonText.bringToTop();
 };
 
 /**
