@@ -22,6 +22,7 @@ module.exports = {
         game.load.image('multi_button_close');
         game.load.image('multi_button_ship');
         game.load.image('title');
+        game.load.image('undock_button');
         game.load.start();
     },
     update: function() {

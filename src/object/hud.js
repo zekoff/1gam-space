@@ -351,9 +351,6 @@ var DockedPanel = function() {
     background.height = 600;
     background.width = 800;
     background.inputEnabled = true;
-    background.events.onInputUp.add(function() {
-        space.hud.hideDockedPanel();
-    }, this);
     this.add(background);
 
     this.nameText = game.make.text(550, 10, "", PLANET_NAME_TEXT_STYLE);
@@ -362,6 +359,12 @@ var DockedPanel = function() {
     this.descriptionText = game.make.text(550, 60, "", PLANET_DESCRIPTION_TEXT_STYLE);
     this.descriptionText.anchor.set(0.5, 0);
     this.add(this.descriptionText);
+    this.undockButton = game.make.image(50, 10, 'undock_button');
+    this.undockButton.inputEnabled = true;
+    this.undockButton.events.onInputUp.add(function() {
+        space.hud.hideDockedPanel();
+    });
+    this.add(this.undockButton);
 
     this.creditsText = game.make.text(300, 200, "", DOCK_INFO_TEXT_STYLE);
     this.creditsText.anchor.set(0.5, 0);
