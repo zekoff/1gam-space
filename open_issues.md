@@ -8,8 +8,6 @@ Pick something from final to-do list.
 
 - Add icons to various results panels
 - Add undock button
-- Add title screen graphic
-- Improve background star field (better graphic at least)
 - Add sound effects
 
 ### Needed icons for results screen

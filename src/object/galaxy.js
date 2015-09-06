@@ -17,10 +17,9 @@ var Galaxy = function() {
         }, 400).start();
     });
     this.add(this.background);
-    this.farStars = game.make.tileSprite(0, 0, 800, 600, 'starfield');
-    this.farStars.tileScale.set(0.4);
-    this.farStars.fixedToCamera = true;
-    this.add(this.farStars);
+    this.stars = game.make.image(0, 0, 'starfield4');
+    this.stars.fixedToCamera = true;
+    this.add(this.stars);
 };
 Galaxy.prototype = Object.create(Phaser.Group.prototype);
 Galaxy.prototype.constructor = Galaxy;
