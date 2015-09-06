@@ -495,8 +495,8 @@ ResultsPanel.prototype.constructor = ResultsPanel;
 ResultsPanel.prototype.showPanel = function(title, icon, text) {
     this.title.setText(title);
     this.icon.loadTexture(icon);
-    this.icon.width = 40;
-    this.icon.height = 40;
+    this.icon.width = 24;
+    this.icon.height = 24;
     this.text.setText(text);
     this.inputMask.inputEnabled = true;
     this.okButton.inputEnabled = true;

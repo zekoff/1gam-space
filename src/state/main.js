@@ -17,7 +17,7 @@ state.create = function() {
     game.camera.follow(space.ship);
     space.hud = new Hud();
 
-    space.hud.resultsPanel.showPanel("Mission Start", "test_icon", "You emerge from " +
+    space.hud.resultsPanel.showPanel("Mission Start", "i_begin", "You emerge from " +
         "hyperspace at a random planet. Your one year mission begins now. Godspeed, captain!");
 };
 

@@ -7,29 +7,29 @@ Pick something from final to-do list.
 ## Final to-do items
 
 - Add icons to various results panels
-- Add undock button
 - Add sound effects
+- More discoveries and flavor events.
 
 ### Needed icons for results screen
 
-- Discovery
-- Fully explored
-- Fallback icon (check mark?)
-- Resupply
-- Bad travel effect
-- Scavenging results
-- Flavor event
-- Buy goods (icon for each good?)
-- Sell goods (icon for each good?)
-- Ship upgrade
-- Refine goods
-- Exploration results
-- Fully explored
-- Scan results
-- Grapple beam
-- Federation additional loan
-- Random exploration event
-- Can't take action for whatever reason
+[ ] Discovery
+[ ] Fully explored
+[ ] Fallback icon (check mark?)
+[ ] Resupply
+[ ] Bad travel effect
+[ ] Scavenging results
+[ ] Flavor event
+[ ] Buy goods (icon for each good?)
+[ ] Sell goods (icon for each good?)
+[ ] Ship upgrade
+[ ] Refine goods
+[ ] Exploration results
+[ ] Fully explored
+[ ] Scan results
+[ ] Grapple beam
+[ ] Federation additional loan
+[ ] Random exploration event
+[ ] Can't take action for whatever reason
 
 ### Skills to implement
 

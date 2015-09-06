@@ -26,7 +26,7 @@ Functions.explore = function() {
     var planet = space.ship.orbiting;
     var currentExploration = space.data.exploration[planet.id].explored;
     if (currentExploration == planet.PLANET_AREAS[planet.area]) {
-        resultsList.push(new Result("Expedition Cancelled", "test_icon", "You've already discovered everything there is to discover on this planet. There is no need to conduct another expedition."));
+        resultsList.push(new Result("Expedition Cancelled", "i_cancel", "You've already discovered everything there is to discover on this planet. There is no need to conduct another expedition."));
         generateResultsChain(resultsList);
         return;
     }
@@ -42,18 +42,18 @@ Functions.explore = function() {
         exploreMessage += " The rough terrain made for slow going. ";
     else if (roughTerrain && space.data.explorationSkill == 3)
         exploreMessage += "Despite the rough terrain, you are skilled enough to push ahead full-speed.";
-    resultsList.push(new Result("Expedition Result", "test_icon", exploreMessage,
+    resultsList.push(new Result("Expedition Result", "i_compass", exploreMessage,
         function() {
             space.data.daysLeft -= exploreTime;
             space.data.exploration[planet.id].explored += exploreResult;
             if (space.data.exploration[planet.id].explored >= planet.PLANET_AREAS[planet.area]) {
                 space.data.exploration[planet.id].explored = planet.PLANET_AREAS[planet.area];
-                resultsList.push(new Result("Planet Fully Explored!", "test_icon", "You've completely explored this planet! The Federation will be pleased."));
+                resultsList.push(new Result("Planet Fully Explored!", "i_star", "You've completely explored this planet! The Federation will be pleased."));
             }
         }));
     if (space.data.explorationSkill > 1) {
         var scavengedAmount = game.rnd.between(200, 1000);
-        resultsList.push(new Result("Scavenged Resources", "test_icon", "As a skilled explorer, " +
+        resultsList.push(new Result("Scavenged Resources", "i_axe", "As a skilled explorer, " +
             "you were able to scavenge " + scavengedAmount + " credits worth of resources during your expedition.",
             function() {
                 space.data.credits += scavengedAmount;
@@ -70,25 +70,25 @@ Functions.scan = function() {
     var planet = space.ship.orbiting;
     var currentExploration = space.data.exploration[planet.id].explored;
     if (currentExploration == planet.PLANET_AREAS[planet.area]) {
-        resultsList.push(new Result("Scan Cancelled", "test_icon", "You've already discovered everything there is to discover on this planet. There is no need to conduct another scan."));
+        resultsList.push(new Result("Scan Cancelled", "i_cancel", "You've already discovered everything there is to discover on this planet. There is no need to conduct another scan."));
         generateResultsChain(resultsList);
         return;
     }
     var scanCost = 5000;
     if (scanCost > space.data.credits) {
-        resultsList.push(new Result("Scan Cancelled", "test_icon", "You can't afford to purchase a scan."));
+        resultsList.push(new Result("Scan Cancelled", "i_money", "You can't afford to purchase a scan."));
         generateResultsChain(resultsList);
         return;
     }
     var scanResult = 200;
-    resultsList.push(new Result("Scan Result", "test_icon", "You purchased a sensor scan of the planet for " +
+    resultsList.push(new Result("Scan Result", "i_scan", "You purchased a sensor scan of the planet for " +
         scanCost + " credits. The scan covers " + scanResult + " sq. miles of terrain.",
         function() {
             space.data.credits -= scanCost;
             space.data.exploration[planet.id].explored += scanResult;
             if (space.data.exploration[planet.id].explored >= planet.PLANET_AREAS[planet.area]) {
                 space.data.exploration[planet.id].explored = planet.PLANET_AREAS[planet.area];
-                resultsList.push(new Result("Planet Fully Explored!", "test_icon", "You've completely explored this planet! The Federation will be pleased."));
+                resultsList.push(new Result("Planet Fully Explored!", "i_star", "You've completely explored this planet! The Federation will be pleased."));
             }
         }));
     Array.prototype.push.apply(resultsList,
@@ -119,14 +119,15 @@ Functions.travelResults = function(distance) {
     }
     var resupplyCost = Math.ceil(distance * 2 * (space.data.upgradeLevel + 1) / 2);
     if (space.data.pilotingSkill > 1) resupplyCost /= 2;
+    resupplyCost = Math.ceil(resupplyCost);
     deltaCredits -= resupplyCost;
-    resultsList.push(new Result('Resupply Costs', 'test_icon', 'Based on the length ' +
+    resultsList.push(new Result('Resupply Costs', 'i_resupply', 'Based on the length ' +
         'of your journey, your piloting skill, and the cost of various components of your ship, your ' +
         'resupply costs total ' + resupplyCost + '.',
         function() {
             space.data.credits -= resupplyCost;
         }));
-    if (space.data.credits + deltaCredits <= 0) resultsList.push(new Result("Out of Credits", "test_icon", "You have run " +
+    if (space.data.credits + deltaCredits <= 0) resultsList.push(new Result("Out of Credits", "i_money", "You have run " +
         "out of money. The Federation grants you a loan to continue exploration, but they are very unhappy.",
         function() {
             space.data.extraLoans++;
@@ -147,7 +148,7 @@ var createDiscoveryUnlockResults = function(currentExploration, newExploration) 
     var resultsList = [];
     planet.discoveries.forEach(function(discovery) {
         if (discovery.unlockAt > currentExploration && discovery.unlockAt <= newExploration)
-            resultsList.push(new Result("Discovery!", "test_icon", "You discovered " + planet.PLANET_DISCOVERIES[discovery.id] + "! You record this discovery in your log to share with the Federation after the journey ends."));
+            resultsList.push(new Result("Discovery!", "i_discovery", "You discovered " + planet.PLANET_DISCOVERIES[discovery.id] + "! You record this discovery in your log to share with the Federation after the journey ends."));
     });
     return resultsList;
 };
@@ -159,18 +160,18 @@ var createRandomExplorationEvent = function() {
     get this feature done.
     */
     return game.rnd.pick([
-        new Result("Found Shipwreck", "test_icon", "While exploring, you find a spaceship that crash landed here. The ruins have been picked pretty clean, but on an old data drive you find 1000 credits.", function() {
+        new Result("Found Shipwreck", "i_search", "While exploring, you find a spaceship that crash landed here. The ruins have been picked pretty clean, but on an old data drive you find 1000 credits.", function() {
             space.data.credits += 1000;
         }),
-        new Result("Found Secret Cache", "test_icon", "Your party stumbled across a cave while exploring where someone left a cache of goods. You sell them upon your return for 2000 credits.", function() {
+        new Result("Found Secret Cache", "i_search", "Your party stumbled across a cave while exploring where someone left a cache of goods. You sell them upon your return for 2000 credits.", function() {
             space.data.credits += 2000;
         }),
-        new Result("Precursor Technology", "test_icon", "You find a magnificent cache of Precursor technology while exploring. After carting it back, you sell it to a collector for 10,000 credits.", function() {
+        new Result("Precursor Technology", "i_search", "You find a magnificent cache of Precursor technology while exploring. After carting it back, you sell it to a collector for 10,000 credits.", function() {
             space.data.credits += 10000;
         }),
-        new Result("Brush with Death", "test_icon", "Your party is ambushed by local fauna. One of your party members is gravely injured, but everyone makes it back alive."),
-        new Result("Beautiful View", "test_icon", "During this expedition you find an incredible vista overlooking the landscape. Even after all these years exploring, you can still appreciate a sunset."),
-        new Result("Encounter with the Numinous", "test_icon", "Near an ancient stone circle, a deathly chill overcomes your party even though the sun is shining brightly. No one speaks a word of it, even long after.")
+        new Result("Brush with Death", "i_search", "Your party is ambushed by local fauna. One of your party members is gravely injured, but everyone makes it back alive."),
+        new Result("Beautiful View", "i_search", "During this expedition you find an incredible vista overlooking the landscape. Even after all these years exploring, you can still appreciate a sunset."),
+        new Result("Encounter with the Numinous", "i_search", "Near an ancient stone circle, a deathly chill overcomes your party even though the sun is shining brightly. No one speaks a word of it, even long after.")
     ]);
 };
 
@@ -186,11 +187,11 @@ var createRandomBadTravelEvent = function() {
         space.data.credits -= amountLost;
     };
     return [amountLost, game.rnd.pick([
-        new Result("Solar Storm", "test_icon", "The radiation from a solar storm " +
+        new Result("Solar Storm", "i_bang", "The radiation from a solar storm " +
             "damaged your ship during travel. It will cost " + amountLost + " to repair the damage.", negativeFunction),
-        new Result("Meteorite Strike", "test_icon", "A small meteorite strikes your ship " +
+        new Result("Meteorite Strike", "i_bang", "A small meteorite strikes your ship " +
             "during travel. It will cost " + amountLost + " to repair the hull damage.", negativeFunction),
-        new Result("Cargo Door Malfunction", "test_icon", "The door to the ship's cargo " +
+        new Result("Cargo Door Malfunction", "i_bang", "The door to the ship's cargo " +
             "hold malfunctioned and your cargo was lost. Your insurance will cover the repurchase " +
             "when you arrive, but the deductible will be " + amountLost + ".", negativeFunction)
     ])];

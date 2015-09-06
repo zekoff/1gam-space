@@ -16,6 +16,14 @@ Trade.TRADE_GOOD_PRICES = [
     150, // Electronics
     75 // Weapons
 ];
+Trade.TRADE_GOOD_ICONS = [
+    'i_organics',
+    'i_minerals',
+    'i_medicine',
+    'i_food',
+    'i_electronics',
+    'i_weapons'
+];
 var BUY_PRICE = 0.7; // Cost to buy planet specialty is 70% of market value
 
 Trade.getTradeGood = function(planet) {
@@ -61,7 +69,7 @@ Trade.getSellText = function(planet) {
 Trade.buyGood = function(planet) {
     var transactionResult = {
         title: "Unable to Purchase",
-        icon: "test_icon",
+        icon: "i_cancel",
         text: ""
     };
     var name = Trade.TRADE_GOOD_NAMES[Trade.getTradeGood(planet)];
@@ -79,7 +87,7 @@ Trade.buyGood = function(planet) {
     var unitsToPurchase = Math.min(maxAffordableUnits, space.data.maxCargo);
     var totalPrice = unitsToPurchase * pricePerUnit;
     transactionResult.title = "Purchased " + name;
-    transactionResult.icon = "test_icon";
+    transactionResult.icon = Trade.TRADE_GOOD_ICONS[Trade.getTradeGood(planet)];
     transactionResult.text = "You purchased " + unitsToPurchase +
         " units of " + name + ". ";
     if (calculateNegotiationBonus() > 0)
@@ -100,13 +108,13 @@ Trade.sellGood = function(planet) {
     if (!space.data.cargo)
         return {
             title: "No Cargo to Sell",
-            icon: "test_icon",
+            icon: "i_cancel",
             text: "Your cargo hold is empty. Purchase cargo from another planet to sell it here."
         };
     if (space.data.cargo.purchasedAt == planet.id)
         return {
             title: "Unable to Sell",
-            icon: "test_icon",
+            icon: "i_cancel",
             text: "This Exchange won't purchase goods that it sold to you."
         };
     var name = Trade.TRADE_GOOD_NAMES[space.data.cargo.id];
@@ -114,7 +122,7 @@ Trade.sellGood = function(planet) {
         (1 + calculateNegotiationBonus()) * space.data.cargo.quantity);
     var result = {};
     result.title = "Sold " + name;
-    result.icon = "test_icon";
+    result.icon = "i_scale";
     result.text = "You sold " + space.data.cargo.quantity + " units of " + name +
         " for " + sellPrice + ".";
     result.result = function() {
