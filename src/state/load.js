@@ -9,8 +9,16 @@ module.exports = {
         game.load.baseURL = './assets/';
         game.scale.pageAlignHorizontally = true;
         game.scale.pageAlignVertically = true;
+        game.load.image('ship');
     },
     create: function() {
+        var preloadSprite = game.add.sprite(400, 250, 'ship');
+        preloadSprite.anchor.set(0.5, 0);
+        game.add.text(400, 500, "LOADING...", {
+            fill: 'white',
+            font: '36pt Arial'
+        }).anchor.set(0.5);
+        game.load.setPreloadSprite(preloadSprite, 1);
         for (var i = 1; i < 19; i++) game.load.image('planet' + i, 'planets/' + i + '.png');
         [
             'begin',
@@ -35,7 +43,7 @@ module.exports = {
             game.load.image('i_' + icon, 'icons/' + icon + '.png');
         });
         game.load.image('pix');
-        game.load.image('ship');
+        // game.load.image('ship');
         game.load.image('starfield4');
         game.load.image('range_marker');
         game.load.image('test_icon');
