@@ -22,6 +22,7 @@ Functions.sell = function() {
 };
 
 Functions.explore = function() {
+    space.sounds.blip.play();
     var resultsList = [];
     var planet = space.ship.orbiting;
     var currentExploration = space.data.exploration[planet.id].explored;
@@ -66,6 +67,7 @@ Functions.explore = function() {
 };
 
 Functions.scan = function() {
+    space.sounds.blip.play();
     var resultsList = [];
     var planet = space.ship.orbiting;
     var currentExploration = space.data.exploration[planet.id].explored;
@@ -172,12 +174,6 @@ var createRandomExplorationEvent = function() {
         new Result("Brush with Death", "i_search", "Your party is ambushed by local fauna. One of your party members is gravely injured, but everyone makes it back alive."),
         new Result("Beautiful View", "i_search", "During this expedition you find an incredible vista overlooking the landscape. Even after all these years exploring, you can still appreciate a sunset."),
         new Result("Encounter with the Numinous", "i_search", "Near an ancient stone circle, a deathly chill overcomes your party even though the sun is shining brightly. No one speaks a word of it, even long after.")
-    ]);
-};
-
-var createRandomGoodTravelEvent = function() {
-    return game.rnd.pick([
-        new Result("", "test_icon", "", function() {})
     ]);
 };
 

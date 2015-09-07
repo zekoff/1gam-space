@@ -132,6 +132,7 @@ Hud.prototype.showPlanetPanel = function(planet) {
     this.multiButton.width = 100;
 };
 Hud.prototype.hidePanel = function() {
+    space.sounds.blip.play();
     var tween = game.add.tween(this).to({
         y: 0,
         x: 0
@@ -164,6 +165,7 @@ Hud.prototype.showDockedPanel = function() {
     }, PANEL_SPEED).start();
 };
 Hud.prototype.hideDockedPanel = function() {
+    space.sounds.blip.play();
     var tween = game.add.tween(this.dockedPanel).to({
         y: 600,
         x: 800

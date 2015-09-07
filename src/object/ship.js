@@ -71,6 +71,7 @@ Ship.prototype.leaveOrbit = function(destination) {
     this.rotation = game.math.angleBetweenPoints(this, destination) + Math.PI / 2;
 };
 Ship.prototype.travelTo = function(planet) {
+    space.sounds.travel.play();
     var distance = Phaser.Math.distance(this.orbiting.x, this.orbiting.y, planet.x, planet.y);
     this.leaveOrbit(planet);
     space.hud.inputMask.inputEnabled = true;

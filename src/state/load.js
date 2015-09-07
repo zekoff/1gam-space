@@ -45,9 +45,20 @@ module.exports = {
         game.load.image('multi_button_ship');
         game.load.image('title');
         game.load.image('undock_button');
+        game.load.audio('blip', 'sounds/blip.ogg');
+        game.load.audio('coin', 'sounds/coin.ogg');
+        game.load.audio('travel', 'sounds/travel.ogg');
+        game.load.audio('music', 'sounds/music.ogg');
         game.load.start();
     },
     update: function() {
-        if (game.load.hasLoaded) game.state.start('title');
+        if (game.load.hasLoaded) {
+            space.sounds = {};
+            space.sounds.blip = game.sound.add('blip', .2);
+            space.sounds.coin = game.sound.add('coin', .5);
+            space.sounds.travel = game.sound.add('travel', .3);
+            space.sounds.music = game.sound.play('music', .05, true);
+            game.state.start('title');
+        }
     }
 };

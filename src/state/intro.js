@@ -55,6 +55,7 @@ state.create = function() {
     var reset = game.add.text(400, 310, "RESET", BUTTON_TEXT_STYLE);
     reset.inputEnabled = true;
     reset.events.onInputUp.add(function() {
+        space.sounds.blip.play();
         skillPointsRemaining = 3;
         negotiation = 1;
         exploration = 1;
@@ -74,6 +75,7 @@ state.create = function() {
     negotiationButton.anchor.set(0.5);
     negotiationButton.inputEnabled = true;
     negotiationButton.events.onInputUp.add(function() {
+        space.sounds.blip.play();
         if (skillPointsRemaining && negotiation < 3) {
             skillPointsRemaining--;
             negotiation++;
@@ -84,6 +86,7 @@ state.create = function() {
     explorationButton.anchor.set(0.5);
     explorationButton.inputEnabled = true;
     explorationButton.events.onInputUp.add(function() {
+        space.sounds.blip.play();
         if (skillPointsRemaining && exploration < 3) {
             skillPointsRemaining--;
             exploration++;
@@ -94,6 +97,7 @@ state.create = function() {
     pilotingButton.anchor.set(0.5);
     pilotingButton.inputEnabled = true;
     pilotingButton.events.onInputUp.add(function() {
+        space.sounds.blip.play();
         if (skillPointsRemaining && piloting < 3) {
             skillPointsRemaining--;
             piloting++;
@@ -104,6 +108,7 @@ state.create = function() {
     var button = game.add.text(400, 550, 'ONWARD!', BUTTON_TEXT_STYLE);
     button.inputEnabled = true;
     button.events.onInputUp.add(function() {
+        space.sounds.travel.play();
         space.data.negotiationSkill = negotiation;
         space.data.explorationSkill = exploration;
         space.data.pilotingSkill = piloting;

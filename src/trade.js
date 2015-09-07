@@ -67,6 +67,7 @@ Trade.getSellText = function(planet) {
 };
 
 Trade.buyGood = function(planet) {
+    space.sounds.coin.play();
     var transactionResult = {
         title: "Unable to Purchase",
         icon: "i_cancel",
@@ -105,6 +106,7 @@ Trade.buyGood = function(planet) {
 };
 
 Trade.sellGood = function(planet) {
+    space.sounds.coin.play();
     if (!space.data.cargo)
         return {
             title: "No Cargo to Sell",
